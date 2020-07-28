@@ -6,7 +6,8 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { jwtMiddleware } from "./jwtMiddleware";
-
+import userRouter from "./routers/userRouter";
+import apiRouter from "./routers/apiRouter";
 dotenv.config();
 
 const app = express();
@@ -20,6 +21,8 @@ app.use(morgan("dev"));
 app.set("jwt-secret", process.env.SECRET);
 
 app.use(jwtMiddleware);
+app.use("/user", userRouter);
+app.use("/api", apiRouter);
 app.use("/", (req, res) => res.send("DDAMI_SERVER"));
 
 export default app;

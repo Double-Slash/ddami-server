@@ -1,5 +1,4 @@
-import mongoose, { Mongoose } from "mongoose";
-import moment from "moment";
+import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   userEmail: { type: String, required: true, trim: true },
@@ -16,9 +15,10 @@ const UserSchema = new mongoose.Schema({
   likeField: [{ type: String }],
   state: { type: Number, default: 0, enum: [0, 1] },
   avatarUrl: { type: String },
+  like: [{ type: mongoose.Schema.Types.ObjectId, ref: "Piece" }],
   created: {
-    type: String,
-    default: moment().format("YYYY년 MM월 DD일 HH:mm:ss"),
+    type: Date,
+    default: Date.now,
   },
   deviceToken: { type: String },
   id: mongoose.Schema.Types.ObjectId,
@@ -27,3 +27,8 @@ const UserSchema = new mongoose.Schema({
 const model = mongoose.model("User", UserSchema);
 
 export default model;
+
+//  created: {
+// type: String,
+// default: moment().format("YYYY년 MM월 DD일 HH:mm:ss")
+//}
