@@ -23,6 +23,7 @@
 - [x] 사용자
 - [x] 작품
 - [x] 댓글
+- [ ] 
 
 **<u>Controller</u>**
 
@@ -30,12 +31,19 @@
 <summary>기능 </summary>
 <div markdown="1">
 
-| 기능               | method | url                |
-| ------------------ | ------ | ------------------ |
-| 사용자 로그인      | POST   | /user/login        |
-| 사용자 회원가입    | POST   | /user/join         |
-| 사용자 작품 업로드 | POST   | /user/upload/piece |
-| 작품 검색          | Get    | /api/search        |
+| 기능               | method      | url                |
+| ------------------ | ----------- | ------------------ |
+| 사용자 로그인      | POST        | /user/login        |
+| 사용자 회원가입    | POST        | /user/join         |
+| 사용자 작품 업로드 | POST        | /user/upload/piece |
+| 작가 팔로우        | POST        | ---                |
+| 작품 좋아요        | POST        | ---                |
+|                    |             |
+| 작품 검색          | POST or Get | /api/search        |
+|                    |             |                    |
+|                    |             |                    |
+
+
 
 <a href = "./src/controllers/readme.md">자세히 보기</a>
 
@@ -46,7 +54,14 @@
 
 - [x] 로그인
 - [x] 회원가입
-- [ ] 게시물 업로드
+- [x] 게시물 업로드
+- [ ] 사용자 작품 업로드
+- [ ] 댓글 달기
+- [ ] 대댓글 달기
+- [ ] 
+- [ ] 작가 팔로우
+- [ ] 작품 좋아요  
+
 
 ### 기타
 

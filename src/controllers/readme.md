@@ -55,12 +55,12 @@
 ## 검색
 1. 최신순 검색 (Default) /  인기순 검색
    
-|             |                                                                               |
-| ----------- | ----------------------------------------------------------------------------- |
-| method      | POST or GET                                                                   |
-| url         | /api/search                                                                   |
-| Header      |                                                                               |
-| Body(Query) | ex) <span style="color:gray">{"sortingBy":"L","list":"1 ~ Z"}</span> //인기순 |
-| Return      |                                                                               |
-    [{},{},{},{}]
-    |
+|             |                                                                                     |
+| ----------- | ----------------------------------------------------------------------------------- |
+| method      | POST or GET                                                                         |
+| url         | /api/search                                                                         |
+| Header      |                                                                                     |
+| Body(Query) | ex) <span style="color:gray">{"sortingBy":"L","Field":"예술","list":"1 ~ Z"}</span> |
+| Return      |                                                                                     |
+    {"result":"1", "values":"[{작품},{},{},{}]"}
+    
