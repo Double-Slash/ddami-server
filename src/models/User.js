@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   userEmail: { type: String, required: true, trim: true },
-  userPassword: { type: String, required: () => this.userPassword.length >= 8 },
+  userPassword: { type: String, required: true },
   userName: { type: String },
   userBirth: { type: String },
   userPhone: { type: String },

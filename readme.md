@@ -30,12 +30,12 @@
 <summary>기능 </summary>
 <div markdown="1">
 
-| 컨트롤러       | 기능               | method | url                | Header         | Body                | return                                      |
-| -------------- | ------------------ | ------ | ------------------ | -------------- | ------------------- | ------------------------------------------- |
-| userController | 사용자 로그인      | POST   | /user/login        | x-access-token | userId userPassword | ex) { result: 0 or 1, message:"", token:""} |
-|                | 사용자 회원가입    | POST   | /user/join         |                |                     |                                             |
-|                | 사용자 작품 업로드 | POST   | /user/upload/works | x-access-token |                     |                                             |
-| apiController  | 작품 검색          | Get    | /api/search        |                | searchingBy         |                                             |
+| 컨트롤러       | 기능               | method | url                |
+| -------------- | ------------------ | ------ | ------------------ | --- | ----------- | --- |
+| userController | 사용자 로그인      | POST   | /user/login        |
+|                | 사용자 회원가입    | POST   | /user/join         |     |             |     |
+|                | 사용자 작품 업로드 | POST   | /user/upload/works |
+| apiController  | 작품 검색          | Get    | /api/search        |     | searchingBy |     |
 
 <a href = "./src/controllers/readme.md">자세히 보기</a>
 

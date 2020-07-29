@@ -1,10 +1,40 @@
 # Controller
 
 ## 사용자 로그인
+1. 일반 로그인 
 
-- 토큰 있을 시 -
-- 토큰 없을 시 -
+|        |                                                                                                                                    |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| method | POST                                                                                                                               |
+| url    | /user/login                                                                                                                        |
+| Header | x-access-token                                                                                                                     |
+| Body   | ex) <span style="color:gray">{"userEmail":"wonseok5893@naver.com","userPassword":"12345678", (android) "deviceToken":"---"}</span> |
+| Return |                                                                                                                                    |
+  
+    "result": 0, //성공시 1 실패시 0
+    "message": "wonseok5893@naver.com로 로그인 성공", // 성공,실패 메시지
+    "token": "?"
 
+   
+
+
+2. 소셜 로그인
+ 
 ## 사용자 회원가입
+|        |                                                                                                                                                                                                                         |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| method | POST                                                                                                                                                                                                                    |
+| url    | /user/join                                                                                                                                                                                                              |
+| Header |                                                                                                                                                                                                                         |
+| Body   | ex) <span style="color:gray">{"userName":"최원석","userEmail":"wonseok5893@naver.com","userPassword":"12345678","userSex":"male","userBirth":"1995-10-27","userPhone":"01041105893","likeField":["공예","예술"]}</span> |
+| Return |                                                                                                                                                                                                                         |
+    "result": 0, // 성공시 1, 실패시 0
+    "message": "DB 오류" // 성공,실패 메시지
+    |
+
+        
+
+
+
 
 ## 사용자 게시물 업로드
