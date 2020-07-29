@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Upload Test</title>
+  </head>
+  <body>
+    <form
+      name="questionForm"
+      method="post"
+      enctype="multipart/form-data"
+      action="http://222.251.129.150/user/upload/piece"
+    >
+      <ul id="questionFormList">
+        <li>
+          <input type="file" name="img" />
+          <input type="file" name="img" />
+        </li>
+        <li>
+          <input type="text" name="title" />
+          <input type="text" name="description" />
+        </li>
+        ...
+      </ul>
+      <input type="submit" value="전송" />
+    </form>
+  </body>
+</html>

@@ -30,12 +30,12 @@
 <summary>기능 </summary>
 <div markdown="1">
 
-| 컨트롤러       | 기능               | method | url                |
-| -------------- | ------------------ | ------ | ------------------ | --- | ----------- | --- |
-| userController | 사용자 로그인      | POST   | /user/login        |
-|                | 사용자 회원가입    | POST   | /user/join         |     |             |     |
-|                | 사용자 작품 업로드 | POST   | /user/upload/works |
-| apiController  | 작품 검색          | Get    | /api/search        |     | searchingBy |     |
+| 기능               | method | url                |
+| ------------------ | ------ | ------------------ |
+| 사용자 로그인      | POST   | /user/login        |
+| 사용자 회원가입    | POST   | /user/join         |
+| 사용자 작품 업로드 | POST   | /user/upload/piece |
+| 작품 검색          | Get    | /api/search        |
 
 <a href = "./src/controllers/readme.md">자세히 보기</a>
 
@@ -44,8 +44,8 @@
 
 ### 사용자 관련 기능
 
-- [ ] 로그인
-- [ ] 회원가입
+- [x] 로그인
+- [x] 회원가입
 - [ ] 게시물 업로드
 
 ### 기타

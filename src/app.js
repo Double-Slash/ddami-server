@@ -18,11 +18,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(morgan("dev"));
+app.use("/uploads", express.static("./uploads/images/"));
 app.set("jwt-secret", process.env.SECRET);
 
 app.use(jwtMiddleware);
 app.use("/user", userRouter);
 app.use("/api", apiRouter);
-app.use("/", (req, res) => res.send("DDAMI_SERVER"));
 
 export default app;

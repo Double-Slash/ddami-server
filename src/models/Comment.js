@@ -11,7 +11,7 @@ const CommentSchema = new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
 });
 
-const model = mongoose.model("User", CommentSchema);
+const model = mongoose.model("Comment", CommentSchema);
 
 export default model;
 

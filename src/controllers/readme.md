@@ -38,3 +38,29 @@
 
 
 ## 사용자 게시물 업로드
+
+|        |                                                                              |
+| ------ | ---------------------------------------------------------------------------- |
+| method | POST                                                                         |
+| url    | /user/upload/piece                                                           |
+| Header | x-access-token                                                               |
+| files  | 개수 <=3                                                                     |
+| Body   | ex) <span style="color:gray">{"title":"DDAMI","description":"Hello!"}</span> |
+| Return |                                                                              |
+    "result": 0, // 성공시 1, 실패시 0
+    "message": "DB 오류" // 성공,실패 메시지
+    |
+
+
+## 검색
+1. 최신순 검색 (Default) /  인기순 검색
+   
+|             |                                                                               |
+| ----------- | ----------------------------------------------------------------------------- |
+| method      | POST or GET                                                                   |
+| url         | /api/search                                                                   |
+| Header      |                                                                               |
+| Body(Query) | ex) <span style="color:gray">{"sortingBy":"L","list":"1 ~ Z"}</span> //인기순 |
+| Return      |                                                                               |
+    [{},{},{},{}]
+    |

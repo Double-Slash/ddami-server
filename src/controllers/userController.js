@@ -1,4 +1,5 @@
 import User from "../models/User";
+import Piece from "../models/Piece";
 import jwt from "jsonwebtoken";
 
 const checkAndroid = (req) => {
@@ -107,4 +108,34 @@ export const postLogin = async (req, res) => {
   }
 };
 
-export const postLogin = async (req, res) => {};
+export const postUpload = async (req, res) => {
+  console.log(req);
+  if (req.decoded) {
+    const {
+      body: { title, description, hasField },
+    } = req;
+    try {
+      const user = await User.findOne({ userEmail: req.decoded.userEmail });
+      const fileUrl = [];
+      if (req.files) {
+        for (var e of req.files) fileUrl.push(e.filename);
+      }
+      const piece = await Piece({
+        fileUrl,
+        title,
+        description,
+        hasField,
+        author: user._id,
+      });
+      piece.save((err) => {
+        if (!err)
+          res.json({ result: 1, message: "성공적으로 업로드 했습니다." });
+      });
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({ result: 0, message: "db오류" });
+    }
+  } else {
+    req.json({ result: 0, message: "로그인 먼저 해주세요" });
+  }
+};

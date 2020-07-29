@@ -1,7 +1,7 @@
 import multer from "multer";
 import path from "path";
 
-const multerImage = multer({
+export const multerImage = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, "uploads/images/");
@@ -10,6 +10,5 @@ const multerImage = multer({
       cb(null, new Date().valueOf() + path.extname(file.originalname));
     },
   }),
+  limits: { fileSize: 5 * 1024 * 1024 },
 });
-
-export const uploadImage = multerImage.single("img");
