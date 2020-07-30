@@ -1,6 +1,8 @@
 import User from "../models/User";
 import Piece from "../models/Piece";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 const checkAndroid = (req) => {
   return req.headers["user-agent"].match(/Android/i) == null ? false : true;
@@ -12,6 +14,7 @@ export const postJoin = async (req, res) => {
       userEmail,
       userPassword,
       userName,
+      userNickname,
       userSex,
       userBirth,
       userPhone,
@@ -23,18 +26,24 @@ export const postJoin = async (req, res) => {
     if (user !== null) {
       res.json({ result: 0, message: "이미 존재하는 ID가 있습니다." });
     } else {
-      const user = await User({
-        userEmail,
-        userPassword,
-        userName,
-        userSex,
-        userBirth,
-        userPhone,
-        likeField,
-      });
-      await User.create(user);
+      const userNickName = await User.findOne({ userNickname });
+      if (userNickName !== null)
+        res.json({ result: 0, message: "이미 사용하는 닉네임이 있습니다." });
+      else {
+        const user = await User({
+          userEmail,
+          userPassword,
+          userName,
+          userNickname,
+          userSex,
+          userBirth,
+          userPhone,
+          likeField,
+        });
+        await User.create(user);
 
-      res.json({ result: 1, message: "회원가입 성공" });
+        res.json({ result: 1, message: "회원가입 성공" });
+      }
     }
   } catch (error) {
     console.log(error);
@@ -104,38 +113,57 @@ export const postLogin = async (req, res) => {
     }
   } else {
     console.log(req.user);
-    res.json({ result: 1, message: "자동 로그인 성공" });
+    res.status(200).json({ result: 1, message: "자동 로그인 성공" });
   }
 };
 
 export const postUpload = async (req, res) => {
   console.log(req);
-  if (req.decoded) {
-    const {
-      body: { title, description, hasField },
-    } = req;
-    try {
-      const user = await User.findOne({ userEmail: req.decoded.userEmail });
-      const fileUrl = [];
-      if (req.files) {
-        for (var e of req.files) fileUrl.push(e.filename);
-      }
-      const piece = await Piece({
-        fileUrl,
-        title,
-        description,
-        hasField,
-        author: user._id,
-      });
-      piece.save((err) => {
-        if (!err)
-          res.json({ result: 1, message: "성공적으로 업로드 했습니다." });
-      });
-    } catch (e) {
-      console.log(e);
-      res.status(500).json({ result: 0, message: "db오류" });
+  const {
+    body: { title, description, hasField },
+  } = req;
+  try {
+    const user = await User.findOne({ userEmail: req.decoded.userEmail });
+    const fileUrl = [];
+    if (req.files) {
+      for (var e of req.files) fileUrl.push(e.filename);
     }
-  } else {
-    req.json({ result: 0, message: "로그인 먼저 해주세요" });
+    const piece = await Piece({
+      fileUrl,
+      title,
+      description,
+      hasField,
+      author: user._id,
+    });
+    piece.save((err) => {
+      if (!err) {
+        user.myPieces.push(piece._id);
+        user.save((err) => {
+          if (err) res.json({ result: 0, message: "db error" });
+        });
+        res
+          .status(201)
+          .json({ result: 1, message: "성공적으로 업로드 했습니다." });
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ result: 0, message: "db오류" });
   }
+};
+
+export const postUserDetail = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  const user = await User.findById(id).populate({
+    path: "myPieces",
+    select: "fileUrl title description like views",
+  });
+
+  res.json({ user });
+};
+
+const fileNameToURL = (fileName) => {
+  return `${process.env.BASE_URL}/uploads/${fileName}`;
 };

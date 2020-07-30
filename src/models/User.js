@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
-  userEmail: { type: String, required: true, trim: true },
+  userEmail: { type: String, required: true, trim: true, unique: true },
   userPassword: { type: String, required: true },
+  userNickname: { type: String, required: true, unique: true },
   userName: { type: String },
   userBirth: { type: String },
   userPhone: { type: String },
@@ -13,8 +14,9 @@ const UserSchema = new mongoose.Schema({
   follow: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   follower: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   likeField: [{ type: String }],
-  state: { type: Number, default: 0, enum: [0, 1] },
+  state: { type: Boolean, default: false },
   avatarUrl: { type: String },
+  myPieces: [{ type: mongoose.Schema.Types.ObjectId, ref: "Piece" }],
   like: [{ type: mongoose.Schema.Types.ObjectId, ref: "Piece" }],
   created: {
     type: Date,

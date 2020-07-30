@@ -21,3 +21,11 @@ export const jwtMiddleware = async (req, res, next) => {
     });
   }
 };
+
+export const checkUser = (req, res, next) => {
+  if (req.decoded) {
+    next();
+  } else {
+    res.status(401).json({ result: 0, message: "로그인 먼저 해주세요" });
+  }
+};
