@@ -90,7 +90,9 @@
             }
         ],
         "_id": "5f250217792bc7076439f352",
-        "userNickname": "test"
+        "userNickname": "test",
+        "stateMessage": "안녕하세요 만나서 반가워요",
+        "imageUrl": ""
     }
 }
 
