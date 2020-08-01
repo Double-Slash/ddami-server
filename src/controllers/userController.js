@@ -1,5 +1,6 @@
 import User from "../models/User";
 import Piece from "../models/Piece";
+import Home from "../models/Home";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
@@ -41,7 +42,7 @@ export const postJoin = async (req, res) => {
           likeField,
         });
         await User.create(user);
-
+        await Home.create({ user: user._id });
         res.json({ result: 1, message: "회원가입 성공" });
       }
     }
@@ -126,7 +127,8 @@ export const postUpload = async (req, res) => {
     const user = await User.findOne({ userEmail: req.decoded.userEmail });
     const fileUrl = [];
     if (req.files) {
-      for (var e of req.files) fileUrl.push(e.filename);
+      for (var e of req.files)
+        fileUrl.push(`${process.env.BASE_URL}/uploads/${e.filename}`);
     }
     const piece = await Piece({
       fileUrl,
@@ -156,12 +158,20 @@ export const postUserDetail = async (req, res) => {
   const {
     params: { id },
   } = req;
-  const user = await User.findById(id).populate({
-    path: "myPieces",
-    select: "fileUrl title description like views",
-  });
+  const user = await User.findById(id)
+    .select("userNickname follow follower likeField state")
+    .populate({
+      path: "myPieces",
+      select: "fileUrl title description like views",
+    });
 
-  res.json({ user });
+  //닉네임 팔로워수
+  let obj = user.toObject();
+  obj.follow = user.follow.length;
+  obj.follower = user.follower.length;
+  obj.myPieces.reverse();
+  console.log(obj);
+  res.json({ result: 0, user: obj });
 };
 
 const fileNameToURL = (fileName) => {

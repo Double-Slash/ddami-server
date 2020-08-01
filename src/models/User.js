@@ -11,11 +11,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     enum: ["male", "female"],
   },
+  likeField: [{ type: String }],
   follow: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   follower: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  likeField: [{ type: String }],
   state: { type: Boolean, default: false },
-  avatarUrl: { type: String },
   myPieces: [{ type: mongoose.Schema.Types.ObjectId, ref: "Piece" }],
   like: [{ type: mongoose.Schema.Types.ObjectId, ref: "Piece" }],
   created: {

@@ -20,13 +20,13 @@
 
 ## 사용자 회원가입
 
-|        |                                                                                                                                                                                                                         |
-| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| method | POST                                                                                                                                                                                                                    |
-| url    | /user/join                                                                                                                                                                                                              |
-| Header |                                                                                                                                                                                                                         |
-| Body   | ex) <span style="color:gray">{"userName":"최원석","userEmail":"wonseok5893@naver.com","userPassword":"12345678","userSex":"male","userBirth":"1995-10-27","userPhone":"01041105893","likeField":["공예","예술"]}</span> |
-| Return |                                                                                                                                                                                                                         |
+|        |                                                                                                                                                                                                                                                 |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| method | POST                                                                                                                                                                                                                                            |
+| url    | /user/join                                                                                                                                                                                                                                      |
+| Header |                                                                                                                                                                                                                                                 |
+| Body   | ex) <span style="color:gray">{"userName":"최원석","userEmail":"wonseok5893@naver.com","userNickname":"1서기", "userPassword":"12345678","userSex":"male","userBirth":"1995-10-27","userPhone":"01041105893","likeField":["공예","예술"]}</span> |
+| Return |                                                                                                                                                                                                                                                 |
 
     {"result": 0, // 성공시 1, 실패시 0
     "message": "DB 오류" // 성공,실패 메시지}
@@ -45,17 +45,66 @@
     {"result": 0, // 성공시 1, 실패시 0
     "message": "DB 오류" // 성공,실패 메시지}
 
+## 사용자 상세보기
+
+|        |                  |
+| ------ | ---------------- |
+| method | POST             |
+| url    | /user/detail/:id |
+| Header |                  |
+| Body   |                  |
+| Return |                  |
+
+    {
+    "result": 0,
+    "user": {
+        "likeField": [
+            "예술",
+            "공예"
+        ],
+        "follow": 0,
+        "follower": 0,
+        "state": false,
+        "myPieces": [
+            {
+                "fileUrl": [
+                    "http://222.251.129.150/uploads/1596261376952.jpg",
+                    "http://222.251.129.150/uploads/1596261377303.jpg"
+                ],
+                "views": 0,
+                "like": 0,
+                "_id": "5f250401792bc7076439f361",
+                "title": "test sample13",
+                "description": "this is a sample."
+            },
+            {
+                "fileUrl": [
+                    "http://222.251.129.150/uploads/1596261364535.jpg",
+                    "http://222.251.129.150/uploads/1596261364895.jpg"
+                ],
+                "views": 0,
+                "like": 0,
+                "_id": "5f2503f5792bc7076439f360",
+                "title": "test sample13",
+                "description": "this is a sample."
+            }
+        ],
+        "_id": "5f250217792bc7076439f352",
+        "userNickname": "test"
+    }
+}
+
 ## 검색
 
 1. 최신순 검색 (Default) / 인기순 검색 / 조회수 순 검색
 
-|             |                                                                                                    |
-| ----------- | -------------------------------------------------------------------------------------------------- |
-| method      | POST or GET                                                                                        |
-| url         | /api/search                                                                                        |
-| Header      |                                                                                                    |
-| Body(Query) | ex) <span style="color:gray">{"sortingBy":"L","field":["예술","공예"],"list":0, count = 2 }</span> |
-| Return      |                                                                                                    |
+|             |                                                                                                                           |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------- |
+| method      | POST or GET                                                                                                               |
+| url         | /api/search                                                                                                               |
+| Header      |                                                                                                                           |
+| Body(Query) | ex) <span style="color:gray">{"sortingBy":"L","field":["예술","공예"],"list":0, "count" = 2,"searchingBy":"test" }</span> |
+| Return      |                                                                                                                           |
 
     {
     "result": 1,
@@ -88,6 +137,10 @@
     }
 
 <center>옵션[options]</center>
+
+searchingBy
+
+- 검색어
 
 sortingBy
 
