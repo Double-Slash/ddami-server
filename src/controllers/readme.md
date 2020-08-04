@@ -47,13 +47,13 @@
 
 ## 사용자 상세보기
 
-|        |                  |
-| ------ | ---------------- |
-| method | POST             |
-| url    | /user/detail/:id |
-| Header |                  |
-| Body   |                  |
-| Return |                  |
+|             |                  |
+| ----------- | ---------------- |
+| method      | POST or GET      |
+| url         | /user/detail/:id |
+| Header      |                  |
+| Body(Query) |                  |
+| Return      |                  |
 
     {
     "result": 0,
@@ -112,29 +112,37 @@
     "result": 1,
     "pieces": [
         {
-            "fileUrl": [],
+            "fileUrl": [
+                "http://222.251.129.150/uploads/1596522285578.jpg"
+            ],
             "views": 0,
-            "like": 0,
-            "_id": "5f22950cdefcd61bdc9643c3",
-            "title": "Test",
-            "description": "test",
+            "like": [],
+            "_id": "5f28ff2df0ffa63b848f7400",
+            "title": "sample10",
+            "description": "this is a sample.",
             "author": {
-                "_id": "5f2293a1defcd61bdc9643c1",
-                "userNickname": "1서기"
-            }
+                "_id": "5f28fe98f0ffa63b848f73f3",
+                "userNickname": "test"
+            },
+            "likeCount": 0,
+            "likeByMe": false
         },
         {
-            "fileUrl": [],
+            "fileUrl": [
+                "http://222.251.129.150/uploads/1596522285578.jpg"
+            ],
             "views": 0,
-            "like": 0,
-            "_id": "5f2294f6defcd61bdc9643c2",
-            "title": "wonseok123",
-            "description": "test",
+            "like": [],
+            "_id": "5f28ff2df0ffa63b848f7400",
+            "title": "sample10",
+            "description": "this is a sample.",
             "author": {
-                "_id": "5f2293a1defcd61bdc9643c1",
-                "userNickname": "1서기"
-            }
-        }
+                "_id": "5f28fe98f0ffa63b848f73f3",
+                "userNickname": "test"
+            },
+            "likeCount": 0,
+            "likeByMe": false
+        }    
     ]
     }
 

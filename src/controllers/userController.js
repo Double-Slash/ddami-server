@@ -169,8 +169,10 @@ export const postUserDetail = async (req, res) => {
   let obj = user.toObject();
   obj.follow = user.follow.length;
   obj.follower = user.follower.length;
+  obj.myPieces.forEach((e) => (e.like = e.like.length));
   obj.myPieces.reverse();
   obj.stateMessage = home.stateMessage;
+
   home.imageUrl ? (obj.imageUrl = home.imageUrl) : (obj.imageUrl = "");
   console.log(obj);
   res.json({ result: 0, user: obj });

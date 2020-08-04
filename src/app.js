@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import { jwtMiddleware } from "./jwtMiddleware";
 import userRouter from "./routers/userRouter";
 import apiRouter from "./routers/apiRouter";
+import pieceRouter from "./routers/pieceRouter";
 dotenv.config();
 
 const app = express();
@@ -24,5 +25,6 @@ app.set("jwt-secret", process.env.SECRET);
 app.use(jwtMiddleware);
 app.use("/user", userRouter);
 app.use("/api", apiRouter);
+app.use("/piece", pieceRouter);
 
 export default app;
