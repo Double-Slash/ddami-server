@@ -162,14 +162,13 @@ export const postUserDetail = async (req, res) => {
     .select("userNickname follow follower likeField state")
     .populate({
       path: "myPieces",
-      select: "fileUrl title description like views",
+      select: "fileUrl title description like likeCount views",
     });
   const home = await Home.findOne({ user: id });
   //닉네임 팔로워수
   let obj = user.toObject();
   obj.follow = user.follow.length;
   obj.follower = user.follower.length;
-  obj.myPieces.forEach((e) => (e.like = e.like.length));
   obj.myPieces.reverse();
   obj.stateMessage = home.stateMessage;
 
@@ -178,6 +177,27 @@ export const postUserDetail = async (req, res) => {
   res.json({ result: 0, user: obj });
 };
 
-const fileNameToURL = (fileName) => {
-  return `${process.env.BASE_URL}/uploads/${fileName}`;
+export const addLike = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  const piece = await Piece.findOne({ _id: id });
+  if (piece == null)
+    res.status(404).json({ result: 0, message: "사라지거나 없는 작품입니다." });
+  else {
+    const user = await User.findById(req.decoded._id);
+    try {
+      piece.like.push(req.decoded._id);
+      piece.likeCount++;
+      piece.save((err) => {
+        if (err) {
+        }
+        user.like.push(id);
+        user.save();
+      });
+      res.json({ result: 1, message: "좋아요 성공" });
+    } catch (err) {
+      res.status(500).json({ result: 0, message: "DB 오류" });
+    }
+  }
 };

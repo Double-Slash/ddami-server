@@ -1,5 +1,5 @@
 import Piece from "../models/Piece";
-
+import { AllSearch, Searching } from "./searchController";
 import User from "../models/User";
 import Search from "../models/Search";
 import dotenv from "dotenv";
@@ -10,21 +10,17 @@ export const postSearch = async (req, res) => {
     body: { field, sortingBy, list, count, searchingBy },
   } = req;
 
-  if (!list) list = 0;
-  if (!count) count = 30;
+  !list ? (list = 0) : (list = +list);
+  !count ? (count = 30) : (count = +count);
+
   if (!searchingBy) {
     if (!sortingBy || sortingBy === "D") {
       if (!field || field.length == 0) {
         // 전체 분야
         try {
-          const pieces = await Piece.find()
-            .sort({ created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await AllSearch.allSearch(list, count);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -32,16 +28,9 @@ export const postSearch = async (req, res) => {
       } else {
         // 부분 분야
         try {
-          const pieces = await Piece.find()
-            .where("hasField")
-            .in(field)
-            .sort({ created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await AllSearch.fieldSearch(field, list, count);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -51,14 +40,9 @@ export const postSearch = async (req, res) => {
       if (!field) {
         // 전체 분야
         try {
-          const pieces = await Piece.find()
-            .sort({ like: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await AllSearch.allSearchByLike(list, count);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -66,16 +50,9 @@ export const postSearch = async (req, res) => {
       } else {
         // 부분 분야
         try {
-          const pieces = await Piece.find()
-            .where("hasField")
-            .in(field)
-            .sort({ like: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await AllSearch.allFieldSearchByLike(field, list, count);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -85,14 +62,9 @@ export const postSearch = async (req, res) => {
       if (!field) {
         // 전체 분야
         try {
-          const pieces = await Piece.find()
-            .sort({ views: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await AllSearch.allSearchByView(list, count);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -100,16 +72,9 @@ export const postSearch = async (req, res) => {
       } else {
         // 부분 분야
         try {
-          const pieces = await Piece.find()
-            .where("hasField")
-            .in(field)
-            .sort({ views: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await AllSearch.allSearchByView(field, list, count);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -124,16 +89,9 @@ export const postSearch = async (req, res) => {
       if (!field || field.length == 0) {
         // 전체 분야
         try {
-          const pieces = await Piece.find({
-            title: { $regex: searchingBy, $options: "i" },
-          })
-            .sort({ created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await Searching.search(list, count, searchingBy);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -141,18 +99,9 @@ export const postSearch = async (req, res) => {
       } else {
         // 부분 분야
         try {
-          const pieces = await Piece.find({
-            title: { $regex: searchingBy, $options: "i" },
-          })
-            .where("hasField")
-            .in(field)
-            .sort({ created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await Searching.fieldSearch(list, count, searchingBy);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -162,16 +111,9 @@ export const postSearch = async (req, res) => {
       if (!field) {
         // 전체 분야
         try {
-          const pieces = await Piece.find({
-            title: { $regex: searchingBy, $options: "i" },
-          })
-            .sort({ like: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await Searching.searchByLike(list, count, searchingBy);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -179,18 +121,14 @@ export const postSearch = async (req, res) => {
       } else {
         // 부분 분야
         try {
-          const pieces = await Piece.find({
-            title: { $regex: searchingBy, $options: "i" },
-          })
-            .where("hasField")
-            .in(field)
-            .sort({ like: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await Searching.fieldSearchByLike(
+            field,
+            list,
+            count,
+            searchingBy
+          );
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -200,16 +138,9 @@ export const postSearch = async (req, res) => {
       if (!field) {
         // 전체 분야
         try {
-          const pieces = await Piece.find({
-            title: { $regex: searchingBy, $options: "i" },
-          })
-            .sort({ views: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await Searching.searchByView(list, count, searchingBy);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -217,18 +148,14 @@ export const postSearch = async (req, res) => {
       } else {
         // 부분 분야
         try {
-          const pieces = await Piece.find({
-            title: { $regex: searchingBy, $options: "i" },
-          })
-            .where("hasField")
-            .in(field)
-            .sort({ views: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await Searching.fieldSearchByView(
+            field,
+            list,
+            count,
+            searchingBy
+          );
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -244,25 +171,17 @@ export const getSearch = async (req, res) => {
   let {
     query: { field, sortingBy, list, count, searchingBy },
   } = req;
-  let likeByMe = false;
-  if (!list) list = 0;
-  if (!count) count = 30;
+
+  !list ? (list = 0) : (list = +list);
+  !count ? (count = 30) : (count = +count);
+
   if (!searchingBy) {
     if (!sortingBy || sortingBy === "D") {
       if (!field || field.length == 0) {
         // 전체 분야
         try {
-          console.log("검색 시작");
-          const pieces = await Piece.find()
-            .sort({ created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like likeCount views")
-            .populate({ path: "author", select: "userNickname" });
-          const obj = JSON.parse(JSON.stringify(pieces));
-          obj.forEach((e) => {
-            e.likeByMe = checkLikeUser(e.like, req);
-          });
+          let obj = await AllSearch.allSearch(list, count);
+          obj = docToJSON(req, obj);
           res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
@@ -271,16 +190,9 @@ export const getSearch = async (req, res) => {
       } else {
         // 부분 분야
         try {
-          const pieces = await Piece.find()
-            .where("hasField")
-            .in(field)
-            .sort({ created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await AllSearch.fieldSearch(field, list, count);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -290,14 +202,9 @@ export const getSearch = async (req, res) => {
       if (!field) {
         // 전체 분야
         try {
-          const pieces = await Piece.find()
-            .sort({ like: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await AllSearch.allSearchByLike(list, count);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -305,16 +212,9 @@ export const getSearch = async (req, res) => {
       } else {
         // 부분 분야
         try {
-          const pieces = await Piece.find()
-            .where("hasField")
-            .in(field)
-            .sort({ like: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await AllSearch.allFieldSearchByLike(field, list, count);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -324,14 +224,9 @@ export const getSearch = async (req, res) => {
       if (!field) {
         // 전체 분야
         try {
-          const pieces = await Piece.find()
-            .sort({ views: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await AllSearch.allSearchByView(list, count);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -339,16 +234,9 @@ export const getSearch = async (req, res) => {
       } else {
         // 부분 분야
         try {
-          const pieces = await Piece.find()
-            .where("hasField")
-            .in(field)
-            .sort({ views: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await AllSearch.allSearchByView(field, list, count);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -363,16 +251,9 @@ export const getSearch = async (req, res) => {
       if (!field || field.length == 0) {
         // 전체 분야
         try {
-          const pieces = await Piece.find({
-            title: { $regex: searchingBy, $options: "i" },
-          })
-            .sort({ created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await Searching.search(list, count, searchingBy);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -380,18 +261,9 @@ export const getSearch = async (req, res) => {
       } else {
         // 부분 분야
         try {
-          const pieces = await Piece.find({
-            title: { $regex: searchingBy, $options: "i" },
-          })
-            .where("hasField")
-            .in(field)
-            .sort({ created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await Searching.fieldSearch(list, count, searchingBy);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -401,16 +273,9 @@ export const getSearch = async (req, res) => {
       if (!field) {
         // 전체 분야
         try {
-          const pieces = await Piece.find({
-            title: { $regex: searchingBy, $options: "i" },
-          })
-            .sort({ like: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await Searching.searchByLike(list, count, searchingBy);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -418,18 +283,14 @@ export const getSearch = async (req, res) => {
       } else {
         // 부분 분야
         try {
-          const pieces = await Piece.find({
-            title: { $regex: searchingBy, $options: "i" },
-          })
-            .where("hasField")
-            .in(field)
-            .sort({ like: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await Searching.fieldSearchByLike(
+            field,
+            list,
+            count,
+            searchingBy
+          );
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -439,16 +300,9 @@ export const getSearch = async (req, res) => {
       if (!field) {
         // 전체 분야
         try {
-          const pieces = await Piece.find({
-            title: { $regex: searchingBy, $options: "i" },
-          })
-            .sort({ views: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await Searching.searchByView(list, count, searchingBy);
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -456,18 +310,14 @@ export const getSearch = async (req, res) => {
       } else {
         // 부분 분야
         try {
-          const pieces = await Piece.find({
-            title: { $regex: searchingBy, $options: "i" },
-          })
-            .where("hasField")
-            .in(field)
-            .sort({ views: -1, created: -1 })
-            .skip(list * count)
-            .limit(count)
-            .select("fileUrl title description like views")
-            .populate({ path: "author", select: "userNickname" });
-
-          res.status(200).json({ result: 1, pieces });
+          let obj = await Searching.fieldSearchByView(
+            field,
+            list,
+            count,
+            searchingBy
+          );
+          obj = docToJSON(req, obj);
+          res.status(200).json({ result: 1, pieces: obj });
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -476,14 +326,6 @@ export const getSearch = async (req, res) => {
     } else {
       res.json({ result: 0, message: "잘못된 형식입니다." });
     }
-  }
-};
-
-const checkLikeUser = (data, req) => {
-  if (!req.decoded) {
-    return false;
-  } else {
-    return data.some((e) => e === req.decoded._id);
   }
 };
 
@@ -514,20 +356,18 @@ const addSearch = async (req, res, searchingBy) => {
   }
 };
 
-export const addLike = async (req, res) => {
-  const {
-    params: { id },
-  } = req;
-  console.log(id);
-  const piece = await Piece.findOne({ _id: id });
-  const user = await User.findOne({ _id: req.decoded._id });
-  if (req.decoded) {
-    piece.like.push(req.decoded._id);
-    piece.save((err) => {
-      if (err) {
-      }
-      user.like = id;
-      user.save();
-    });
+const checkLikeUser = (data, req) => {
+  if (!req.decoded) {
+    return false;
+  } else {
+    return data.some((e) => e === req.decoded._id);
   }
+};
+
+const docToJSON = (req, pieces) => {
+  let obj = JSON.parse(JSON.stringify(pieces));
+  obj.forEach((e) => {
+    e.likeByMe = checkLikeUser(e.like, req);
+  });
+  return obj;
 };

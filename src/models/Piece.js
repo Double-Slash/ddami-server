@@ -10,7 +10,7 @@ const PieceSchema = new mongoose.Schema(
     hasField: [{ type: String }],
     views: { type: Number, default: 0 },
     like: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    state: { type: Number, default: 0, enum: [-1, 0, 1] },
+    likeCount: { type: Number, default: 0 },
     created: {
       type: Date,
       default: Date.now,
@@ -19,13 +19,14 @@ const PieceSchema = new mongoose.Schema(
   },
   { toJSON: { virtuals: true } }
 );
-PieceSchema.virtual("likeCount").get(function () {
-  return this.like.length;
-});
 
 const model = mongoose.model("Piece", PieceSchema);
 
 export default model;
+
+// PieceSchema.virtual("likeCount").get(function () {
+//   return this.like.length;
+// });
 
 //  created: {
 // type: String,

@@ -4,8 +4,9 @@ import {
   postLogin,
   postUpload,
   postUserDetail,
+  addLike,
 } from "../controllers/userController";
-import { addLike } from "../controllers/apiController";
+
 import { multerImage } from "../multerMiddleware";
 import { checkUser } from "../jwtMiddleware";
 const userRouter = express.Router();
@@ -20,6 +21,6 @@ userRouter.post(
   multerImage.array("img", 3),
   postUpload
 );
-userRouter.post("/like/:id", addLike);
+userRouter.post("/like/:id", checkUser, addLike);
 
 export default userRouter;
