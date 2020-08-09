@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import moment from "moment";
 const PieceSchema = new mongoose.Schema(
   {
     fileUrl: [{ type: String }],
@@ -20,13 +20,11 @@ const PieceSchema = new mongoose.Schema(
   { toJSON: { virtuals: true } }
 );
 
+// console.log(moment(ISODate("2020-08-05T14:57:20.806Z")));
+
 const model = mongoose.model("Piece", PieceSchema);
 
 export default model;
-
-// PieceSchema.virtual("likeCount").get(function () {
-//   return this.like.length;
-// });
 
 //  created: {
 // type: String,

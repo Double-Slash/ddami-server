@@ -9,6 +9,13 @@ const checkAndroid = (req) => {
   return req.headers["user-agent"].match(/Android/i) == null ? false : true;
 };
 
+export const postAuth = async (req, res) => {
+  const user = await User.findById(req.decoded._id);
+  if (user === null)
+    res.josn({ result: 0, message: "없어진 계정이거나 없는 계정입니다." });
+  else {
+  }
+};
 export const postJoin = async (req, res) => {
   const {
     body: {
@@ -41,8 +48,14 @@ export const postJoin = async (req, res) => {
           userPhone,
           likeField,
         });
-        await User.create(user);
-        await Home.create({ user: user._id });
+        const signedUser = await User.create(user);
+        const home = await Home.create({ user: user._id });
+        await User.findByIdAndUpdate(signedUser, { home: home._id }, (err) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+        });
         res.json({ result: 1, message: "회원가입 성공" });
       }
     }

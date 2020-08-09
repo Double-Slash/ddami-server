@@ -1,4 +1,5 @@
 import Piece from "../models/Piece";
+import { checkLikeUser } from "./apiController";
 
 export const getPieceDetail = async (req, res) => {
   const {
@@ -8,5 +9,7 @@ export const getPieceDetail = async (req, res) => {
     path: "author",
     select: "userNickname",
   });
-  res.json({ result: 1, piece });
+  const obj = piece.toObject();
+  obj.likeByUser = checkLikeUser(piece.like, req);
+  res.json({ result: 1, obj });
 };

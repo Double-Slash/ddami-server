@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Home from "./Home";
 
 const UserSchema = new mongoose.Schema({
   userEmail: { type: String, required: true, trim: true, unique: true },
@@ -14,9 +15,11 @@ const UserSchema = new mongoose.Schema({
   likeField: [{ type: String }],
   follow: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   follower: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  followerCount: { type: Number },
   state: { type: Boolean, default: false },
   myPieces: [{ type: mongoose.Schema.Types.ObjectId, ref: "Piece" }],
   like: [{ type: mongoose.Schema.Types.ObjectId, ref: "Piece" }],
+  home: { type: mongoose.Schema.Types.ObjectId, ref: "Home" },
   created: {
     type: Date,
     default: Date.now,

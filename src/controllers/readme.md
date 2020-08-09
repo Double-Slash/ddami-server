@@ -4,19 +4,19 @@
 
 1. 일반 로그인
 
-|        |                                                                                                                                    |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| method | POST                                                                                                                               |
-| url    | /user/login                                                                                                                        |
-| Header | x-access-token                                                                                                                     |
-| Body   | ex) <span style="color:gray">{"userEmail":"wonseok5893@naver.com","userPassword":"12345678", (android) "deviceToken":"---"}</span> |
-| Return |                                                                                                                                    |
+|        |                                                                                                                         |
+| ------ | ----------------------------------------------------------------------------------------------------------------------- |
+| method | POST                                                                                                                    |
+| url    | /user/login                                                                                                             |
+| Header | x-access-token                                                                                                          |
+| Body   | ex) <span style="color:gray">{"userEmail":"test@naver.com","userPassword":"1234", (android) "deviceToken":"---"}</span> |
+| Return |                                                                                                                         |
 
     {"result": 0, //성공시 1 실패시 0
     "message": "wonseok5893@naver.com로 로그인 성공", // 성공,실패 메시지
     "token": "?"}
 
-2. 소셜 로그인
+1. 소셜 로그인
 
 ## 사용자 회원가입
 
@@ -94,11 +94,26 @@
         "stateMessage": "안녕하세요 만나서 반가워요",
         "imageUrl": ""
     }
-}
-##  따미 샵 글 작성
+    }
 
+## 내 정보
 
-## 따미 마을 검색
+|        |                |
+| ------ | -------------- |
+| method | POST           |
+| url    | /user/auth     |
+| Header | x-access-token |
+| Body   | (anroid) token |
+| Return |                |
+
+    {
+    "result": 0,
+    "user": {}
+    }
+
+## 따미 샵 글 작성
+
+## 따미 마을 작품 검색
 
 1. 최신순 검색 (Default) / 인기순 검색 / 조회수 순 검색
 
@@ -144,7 +159,7 @@
             },
             "likeCount": 0,
             "likeByMe": false
-        }    
+        }
     ]
     }
 
@@ -176,10 +191,68 @@ list
 - list:0 count:10 -> 0~9까지 출력
 - list:1 count:10 -> 10~19까지 출력
 
+## 따미 마을 작가 검색
 
+1.  인기순 검색(팔로워 수)
 
+|             |                                                                                      |
+| ----------- | ------------------------------------------------------------------------------------ |
+| method      | POST or GET                                                                          |
+| url         | /api/author/search                                                                   |
+| Header      |                                                                                      |
+| Body(Query) | ex) <span style="color:gray">{"list":0, "count" = 2,"searchingBy":"wonseok" }</span> |
+| Return      |                                                                                      |
 
-## 작품 상세보기 
+    {
+    "result": 0,
+    "authors": [
+        {
+            "likeField": [
+                "예술",
+                "공예"
+            ],
+            "_id": "5f2ea39c5828150768ac8276",
+            "userNickname": "wonseok",
+            "home": {
+                "imageUrl": "",
+                "stateMessage": "안녕하세요 만나서 반가워요"
+            },
+            "followByMe": false
+        },
+        {
+            "likeField": [
+                "예술",
+                "공예"
+            ],
+            "_id": "5f2ea4876d82bd2950067503",
+            "userNickname": "wonseok123",
+            "home": {
+                "imageUrl": "",
+                "stateMessage": "안녕하세요 만나서 반가워요"
+            },
+            "followByMe": false
+        }
+    ]
+    }
+
+<center>옵션[options]</center>
+
+searchingBy
+
+- 검색어
+
+count
+
+- Default count=30
+- 출력 시킬 데이터 개수
+
+list
+
+- Default list =0
+- list:0 count:10 -> 0~9까지 출력
+- list:1 count:10 -> 10~19까지 출력
+
+## 작품 상세보기
 
 |             |                   |
 | ----------- | ----------------- |
@@ -191,28 +264,30 @@ list
 
     {
     "result": 1,
-    "piece": {
+    "obj": {
         "fileUrl": [
-            "http://222.251.129.150/uploads/1596639440460.jpg",
-            "http://222.251.129.150/uploads/1596639440548.jpg"
+            "http://222.251.129.150/uploads/1596639446269.jpg",
+            "http://222.251.129.150/uploads/1596639446356.jpg"
         ],
         "comments": [],
         "hasField": [
             "공예"
         ],
-        "views": 2,
-        "like": [],
-        "likeCount": 0,
-        "_id": "5f2ac8d08f56110128e4a883",
-        "title": "sample13",
+        "views": 1,
+        "like": [
+            "5f2ac85b8f56110128e4a873"
+        ],
+        "likeCount": 1,
+        "_id": "5f2ac8d68f56110128e4a885",
+        "title": "sample15",
         "description": "this is a sample.",
         "author": {
             "_id": "5f2ac85b8f56110128e4a873",
             "userNickname": "test"
         },
-        "created": "2020-08-05T14:57:20.806Z",
-        "__v": 0
-    } 
+        "created": "2020-08-05T14:57:26.589Z", //ISO 8601 date 형식 한국시간 -9시간
+        "likeByUser": false
+    }
     }
 
 - 조회수 증가 => 해당 게시물을 10분 안에 조회했었으면 증가 x

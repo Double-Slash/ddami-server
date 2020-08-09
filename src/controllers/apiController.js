@@ -2,9 +2,93 @@ import Piece from "../models/Piece";
 import { AllSearch, Searching } from "./searchController";
 import User from "../models/User";
 import Search from "../models/Search";
+import Home from "../models/Home";
 import dotenv from "dotenv";
 import { Mongoose } from "mongoose";
 dotenv.config();
+
+export const getAuthorSearch = async (req, res) => {
+  let {
+    query: { list, count, searchingBy },
+  } = req;
+  !list ? (list = 0) : (list = +list);
+  !count ? (count = 30) : (count = +count);
+  if (!searchingBy) {
+    try {
+      const authors = await User.find()
+        .sort({ followerCount: -1 })
+        .skip(list * count)
+        .limit(count)
+        .select("userNickname likeField")
+        .populate({ path: "home", select: "imageUrl stateMessage" });
+      let obj = JSON.parse(JSON.stringify(authors));
+      obj.forEach((e) => {
+        e.followByMe = checkInclude(e.follower, req);
+      });
+
+      res.json({ result: 0, authors: obj });
+    } catch (e) {
+      console.log(e);
+    }
+  } else {
+    const authors = await User.find({
+      userNickname: { $regex: searchingBy, $options: "i" },
+    })
+      .sort({ followerCount: -1 })
+      .skip(list * count)
+      .limit(count)
+      .select("userNickname likeField")
+      .populate({ path: "home", select: "imageUrl stateMessage" });
+    let obj = JSON.parse(JSON.stringify(authors));
+    obj.forEach((e) => {
+      e.followByMe = checkInclude(e.follower, req);
+    });
+
+    res.json({ result: 0, authors: obj });
+  }
+};
+
+export const postAuthorSearch = async (req, res) => {
+  let {
+    body: { list, count, searchingBy },
+  } = req;
+  !list ? (list = 0) : (list = +list);
+  !count ? (count = 30) : (count = +count);
+  if (!searchingBy) {
+    try {
+      const authors = await User.find()
+        .sort({ followerCount: -1 })
+        .skip(list * count)
+        .limit(count)
+        .select("userNickname likeField")
+        .populate({ path: "home", select: "imageUrl stateMessage" });
+      let obj = JSON.parse(JSON.stringify(authors));
+      obj.forEach((e) => {
+        e.followByMe = checkInclude(e.follower, req);
+      });
+
+      res.json({ result: 0, authors: obj });
+    } catch (e) {
+      console.log(e);
+    }
+  } else {
+    const authors = await User.find({
+      userNickname: { $regex: searchingBy, $options: "i" },
+    })
+      .sort({ followerCount: -1 })
+      .skip(list * count)
+      .limit(count)
+      .select("userNickname likeField")
+      .populate({ path: "home", select: "imageUrl stateMessage" });
+    let obj = JSON.parse(JSON.stringify(authors));
+    obj.forEach((e) => {
+      e.followByMe = checkInclude(e.follower, req);
+    });
+
+    res.json({ result: 0, authors: obj });
+  }
+};
+
 export const postSearch = async (req, res) => {
   let {
     body: { field, sortingBy, list, count, searchingBy },
@@ -356,7 +440,7 @@ const addSearch = async (req, res, searchingBy) => {
   }
 };
 
-const checkLikeUser = (data, req) => {
+export const checkInclude = (data, req) => {
   if (!req.decoded) {
     return false;
   } else {
@@ -367,7 +451,7 @@ const checkLikeUser = (data, req) => {
 const docToJSON = (req, pieces) => {
   let obj = JSON.parse(JSON.stringify(pieces));
   obj.forEach((e) => {
-    e.likeByMe = checkLikeUser(e.like, req);
+    e.likeByMe = checkInclude(e.like, req);
   });
   return obj;
 };

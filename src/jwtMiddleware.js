@@ -6,7 +6,8 @@ dotenv.config();
 const loginUser = new Object();
 
 export const jwtMiddleware = async (req, res, next) => {
-  const token = req.headers["x-access-token"] || req.query.token;
+  const token =
+    req.headers["x-access-token"] || req.query.token || req.body.token;
   if (!token || token === "") {
     next();
   } else {
@@ -17,7 +18,7 @@ export const jwtMiddleware = async (req, res, next) => {
         next();
       } else {
         res.status(403).json({
-          result: "fail",
+          result: 0,
           message: "Token error. 다시 로그인 해주세요.",
         });
       }
