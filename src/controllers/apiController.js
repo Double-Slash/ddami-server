@@ -19,7 +19,7 @@ export const getAuthorSearch = async (req, res) => {
         .sort({ followerCount: -1 })
         .skip(list * count)
         .limit(count)
-        .select("userNickname likeField")
+        .select("userName likeField")
         .populate({ path: "home", select: "imageUrl stateMessage" });
       let obj = JSON.parse(JSON.stringify(authors));
       obj.forEach((e) => {
@@ -32,12 +32,12 @@ export const getAuthorSearch = async (req, res) => {
     }
   } else {
     const authors = await User.find({
-      userNickname: { $regex: searchingBy, $options: "i" },
+      userName: { $regex: searchingBy, $options: "i" },
     })
       .sort({ followerCount: -1 })
       .skip(list * count)
       .limit(count)
-      .select("userNickname likeField")
+      .select("userName likeField")
       .populate({ path: "home", select: "imageUrl stateMessage" });
     let obj = JSON.parse(JSON.stringify(authors));
     obj.forEach((e) => {
@@ -60,7 +60,7 @@ export const postAuthorSearch = async (req, res) => {
         .sort({ followerCount: -1 })
         .skip(list * count)
         .limit(count)
-        .select("userNickname likeField")
+        .select("userName likeField")
         .populate({ path: "home", select: "imageUrl stateMessage" });
       let obj = JSON.parse(JSON.stringify(authors));
       obj.forEach((e) => {
@@ -73,12 +73,12 @@ export const postAuthorSearch = async (req, res) => {
     }
   } else {
     const authors = await User.find({
-      userNickname: { $regex: searchingBy, $options: "i" },
+      userName: { $regex: searchingBy, $options: "i" },
     })
       .sort({ followerCount: -1 })
       .skip(list * count)
       .limit(count)
-      .select("userNickname likeField")
+      .select("userName likeField")
       .populate({ path: "home", select: "imageUrl stateMessage" });
     let obj = JSON.parse(JSON.stringify(authors));
     obj.forEach((e) => {

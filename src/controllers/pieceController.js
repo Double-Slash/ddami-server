@@ -1,5 +1,5 @@
 import Piece from "../models/Piece";
-import { checkLikeUser } from "./apiController";
+import { checkInclude } from "./apiController";
 
 export const getPieceDetail = async (req, res) => {
   const {
@@ -7,9 +7,13 @@ export const getPieceDetail = async (req, res) => {
   } = req;
   const piece = await Piece.findOne({ _id: id }).populate({
     path: "author",
-    select: "userNickname",
+    select: "userName",
   });
-  const obj = piece.toObject();
-  obj.likeByUser = checkLikeUser(piece.like, req);
-  res.json({ result: 1, obj });
+  if (piece == null)
+    res.json({ result: 0, message: "없거나 사라진 작품입니다." });
+  else {
+    const obj = piece.toObject();
+    obj.likeByUser = checkInclude(piece.like, req);
+    res.json({ result: 1, piece: obj });
+  }
 };

@@ -9,6 +9,7 @@ import { jwtMiddleware } from "./jwtMiddleware";
 import userRouter from "./routers/userRouter";
 import apiRouter from "./routers/apiRouter";
 import pieceRouter from "./routers/pieceRouter";
+import shopRouter from "./routers/shopRouter";
 dotenv.config();
 
 const app = express();
@@ -26,5 +27,5 @@ app.use(jwtMiddleware);
 app.use("/user", userRouter);
 app.use("/api", apiRouter);
 app.use("/piece", pieceRouter);
-
+app.use("/shop", shopRouter);
 export default app;

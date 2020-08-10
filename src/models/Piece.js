@@ -11,6 +11,7 @@ const PieceSchema = new mongoose.Schema(
     views: { type: Number, default: 0 },
     like: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     likeCount: { type: Number, default: 0 },
+    state: { type: Number, default: 0, enum: [1, 0, -1] },
     created: {
       type: Date,
       default: Date.now,

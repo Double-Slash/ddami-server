@@ -20,16 +20,29 @@
 
 ## 사용자 회원가입
 
-|        |                                                                                                                                                                                                                                                 |
-| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| method | POST                                                                                                                                                                                                                                            |
-| url    | /user/join                                                                                                                                                                                                                                      |
-| Header |                                                                                                                                                                                                                                                 |
-| Body   | ex) <span style="color:gray">{"userName":"최원석","userEmail":"wonseok5893@naver.com","userNickname":"1서기", "userPassword":"12345678","userSex":"male","userBirth":"1995-10-27","userPhone":"01041105893","likeField":["공예","예술"]}</span> |
-| Return |                                                                                                                                                                                                                                                 |
+|        |                                                                                                                                                                                                  |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| method | POST                                                                                                                                                                                             |
+| url    | /user/join                                                                                                                                                                                       |
+| Header |                                                                                                                                                                                                  |
+| Body   | ex) <span style="color:gray">{"userId":"test","userPassword":"1234", "userName":"최원석","userSex":"male","userBirth":"1995-10-27","userPhone":"01041105893","likeField":["공예","예술"]}</span> |
+| Return |                                                                                                                                                                                                  |
 
     {"result": 0, // 성공시 1, 실패시 0
     "message": "DB 오류" // 성공,실패 메시지}
+
+### 회원가입 ID check
+
+|        |                                                       |
+| ------ | ----------------------------------------------------- |
+| method | POST                                                  |
+| url    | /user/checkId                                         |
+| Header |                                                       |
+| Body   | ex) <span style="color:gray">{"userId":"test"}</span> |
+| Return |                                                       |
+
+    {"result": 0, // 성공시 1, 실패시 0
+    "message": "이미 존재하는 ID입니다." // 성공,실패 메시지}
 
 ## 따미마을 게시물 업로드
 
@@ -59,8 +72,8 @@
     "result": 0,
     "user": {
         "likeField": [
-            "예술",
-            "공예"
+            "공예",
+            "예술"
         ],
         "follow": 0,
         "follower": 0,
@@ -68,29 +81,19 @@
         "myPieces": [
             {
                 "fileUrl": [
-                    "http://222.251.129.150/uploads/1596261376952.jpg",
-                    "http://222.251.129.150/uploads/1596261377303.jpg"
+                    "http://222.251.129.150/uploads/1597061667017.jpg",
+                    "http://222.251.129.150/uploads/1597061667368.jpg"
                 ],
                 "views": 0,
-                "like": 0,
-                "_id": "5f250401792bc7076439f361",
-                "title": "test sample13",
-                "description": "this is a sample."
-            },
-            {
-                "fileUrl": [
-                    "http://222.251.129.150/uploads/1596261364535.jpg",
-                    "http://222.251.129.150/uploads/1596261364895.jpg"
-                ],
-                "views": 0,
-                "like": 0,
-                "_id": "5f2503f5792bc7076439f360",
-                "title": "test sample13",
+                "like": [],
+                "likeCount": 0,
+                "_id": "5f313a23cb0e0f42d0a02b9c",
+                "title": "sample4",
                 "description": "this is a sample."
             }
         ],
-        "_id": "5f250217792bc7076439f352",
-        "userNickname": "test",
+        "_id": "5f3139a8cb0e0f42d0a02b9a",
+        "userName": "최원석",
         "stateMessage": "안녕하세요 만나서 반가워요",
         "imageUrl": ""
     }
@@ -111,7 +114,21 @@
     "user": {}
     }
 
-## 따미 샵 글 작성
+## 따미 작품 샵 글 작성
+
+|        |                                                                                                                                                                               |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| method | POST                                                                                                                                                                          |
+| url    | /shop/upload/piece                                                                                                                                                            |
+| Header | x-access-token                                                                                                                                                                |
+| Body   | <span style="color:gray">{"pieces":["5f313a23cb0e0f42d0a02b9c"],"title":"첫번쨰 판매","description":"1","price":10000,"hasField":["공예"],"locationName":"중앙대학교"}</span> |
+| Return |                                                                                                                                                                               |
+
+    {
+    "result": 1,
+    "message": "성공적으로 따미 작품샾에 업로드 하였습니다."
+    }
+
 
 ## 따미 마을 작품 검색
 

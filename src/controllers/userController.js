@@ -3,26 +3,36 @@ import Piece from "../models/Piece";
 import Home from "../models/Home";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { sendMessage } from "../pushAlarm";
 dotenv.config();
 
 const checkAndroid = (req) => {
   return req.headers["user-agent"].match(/Android/i) == null ? false : true;
 };
-
+export const checkUserId = async (req, res) => {
+  const {
+    body: { userId },
+  } = req;
+  const user = await User.findOne({ userId });
+  if (user === null) {
+    res.json({ result: 1, message: "가능한 ID입니다." });
+  } else {
+    res.json({ result: 0, message: "이미 존재하는 ID입니다." });
+  }
+};
 export const postAuth = async (req, res) => {
   const user = await User.findById(req.decoded._id);
   if (user === null)
-    res.josn({ result: 0, message: "없어진 계정이거나 없는 계정입니다." });
+    res.json({ result: 0, message: "없어진 계정이거나 없는 계정입니다." });
   else {
   }
 };
 export const postJoin = async (req, res) => {
   const {
     body: {
-      userEmail,
+      userId,
       userPassword,
       userName,
-      userNickname,
       userSex,
       userBirth,
       userPhone,
@@ -30,34 +40,28 @@ export const postJoin = async (req, res) => {
     },
   } = req;
   try {
-    const user = await User.findOne({ userEmail });
+    const user = await User.findOne({ userId });
     if (user !== null) {
       res.json({ result: 0, message: "이미 존재하는 ID가 있습니다." });
     } else {
-      const userNickName = await User.findOne({ userNickname });
-      if (userNickName !== null)
-        res.json({ result: 0, message: "이미 사용하는 닉네임이 있습니다." });
-      else {
-        const user = await User({
-          userEmail,
-          userPassword,
-          userName,
-          userNickname,
-          userSex,
-          userBirth,
-          userPhone,
-          likeField,
-        });
-        const signedUser = await User.create(user);
-        const home = await Home.create({ user: user._id });
-        await User.findByIdAndUpdate(signedUser, { home: home._id }, (err) => {
-          if (err) {
-            console.log(err);
-            return;
-          }
-        });
-        res.json({ result: 1, message: "회원가입 성공" });
-      }
+      const user = await User({
+        userId,
+        userPassword,
+        userName,
+        userSex,
+        userBirth,
+        userPhone,
+        likeField,
+      });
+      const signedUser = await User.create(user);
+      const home = await Home.create({ user: user._id });
+      await User.findByIdAndUpdate(signedUser, { home: home._id }, (err) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+      });
+      res.json({ result: 1, message: "회원가입 성공" });
     }
   } catch (error) {
     console.log(error);
@@ -66,21 +70,22 @@ export const postJoin = async (req, res) => {
 };
 
 export const postLogin = async (req, res) => {
+  console.log(req);
   if (!req.decoded) {
     const {
-      body: { userEmail, userPassword, deviceToken },
+      body: { userId, userPassword, deviceToken },
     } = req;
     //SERCRET
     const secret = req.app.get("jwt-secret");
-    const user = await User.findOne({ userEmail });
+    const user = await User.findOne({ userId });
     console.log(req);
     if (user) {
-      if (user.userEmail === userEmail && user.userPassword === userPassword) {
+      if (user.userId === userId && user.userPassword === userPassword) {
         //토큰 발급
         jwt.sign(
           {
             _id: user._id,
-            userEmail: user.userEmail,
+            userId: user.userId,
           },
           secret,
           {
@@ -91,10 +96,12 @@ export const postLogin = async (req, res) => {
           (err, token) => {
             if (!err) {
               console.log("로그인 성공");
+              sendMessage(deviceToken, "진희님", "안녕");
               if (checkAndroid(req)) {
                 if (user.deviceToken) {
                   if (user.deviceToken !== deviceToken) {
                     user.deviceToken = deviceToken;
+
                     user.save((e) => {
                       if (!e) {
                         console.log("디바이스 토큰 변경 완료");
@@ -112,7 +119,7 @@ export const postLogin = async (req, res) => {
               }
               res.json({
                 result: 0,
-                message: `${userEmail}로 로그인 성공`,
+                message: `${userId}로 로그인 성공`,
                 token,
               });
             }
@@ -137,7 +144,7 @@ export const postUpload = async (req, res) => {
     body: { title, description, hasField },
   } = req;
   try {
-    const user = await User.findOne({ userEmail: req.decoded.userEmail });
+    const user = await User.findOne({ userId: req.decoded.userId });
     const fileUrl = [];
     if (req.files) {
       for (var e of req.files)
@@ -172,11 +179,12 @@ export const postUserDetail = async (req, res) => {
     params: { id },
   } = req;
   const user = await User.findById(id)
-    .select("userNickname follow follower likeField state")
+    .select("userName follow follower likeField state")
     .populate({
       path: "myPieces",
       select: "fileUrl title description like likeCount views",
     });
+
   const home = await Home.findOne({ user: id });
   //닉네임 팔로워수
   let obj = user.toObject();

@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
-const ProductSchema = new mongoose.Schema(
+const MaterialSchema = new mongoose.Schema(
   {
-    pieces: [{ type: mongoose.Schema.Types.ObjectId, ref: "Piece" }],
+    fileUrl: [{ type: String }],
     title: { type: String },
     description: { type: String },
     price: { type: Number },
@@ -26,10 +26,10 @@ const ProductSchema = new mongoose.Schema(
   },
   { toJSON: { virtuals: true } }
 );
-// ProductSchema.virtual("likeCount").get(function () {
+// MaterialSchema.virtual("likeCount").get(function () {
 //   return this.like.length;
 // });
 
-const model = mongoose.model("Product", ProductSchema);
+const model = mongoose.model("Product", MaterialSchema);
 
 export default model;

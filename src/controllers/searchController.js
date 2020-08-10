@@ -6,7 +6,7 @@ const allSearch = async (list, count) => {
     .skip(list * count)
     .limit(count)
     .select("fileUrl title description like likeCount views")
-    .populate({ path: "author", select: "userNickname" });
+    .populate({ path: "author", select: "userName" });
 
   return pieces;
 };
@@ -19,7 +19,7 @@ const allFieldSearch = async (field, list, count) => {
     .skip(list * count)
     .limit(count)
     .select("fileUrl title description like likeCount views")
-    .populate({ path: "author", select: "userNickname" });
+    .populate({ path: "author", select: "userName" });
 
   return pieces;
 };
@@ -30,7 +30,7 @@ const allSearchByLike = async (list, count) => {
     .skip(list * count)
     .limit(count)
     .select("fileUrl title description like likeCount views")
-    .populate({ path: "author", select: "userNickname" });
+    .populate({ path: "author", select: "userName" });
 
   return pieces;
 };
@@ -42,7 +42,7 @@ const allFieldSearchByLike = async (list, count) => {
     .skip(list * count)
     .limit(count)
     .select("fileUrl title description like likeCount views")
-    .populate({ path: "author", select: "userNickname" });
+    .populate({ path: "author", select: "userName" });
 
   return pieces;
 };
@@ -52,7 +52,7 @@ const allSearchByView = async (list, count) => {
     .skip(list * count)
     .limit(count)
     .select("fileUrl title description like likeCount views")
-    .populate({ path: "author", select: "userNickname" });
+    .populate({ path: "author", select: "userName" });
 
   return pieces;
 };
@@ -65,7 +65,7 @@ const allFieldSearchByView = async (field, list, count) => {
     .skip(list * count)
     .limit(count)
     .select("fileUrl title description like likeCount views")
-    .populate({ path: "author", select: "userNickname" });
+    .populate({ path: "author", select: "userName" });
 
   return pieces;
 };
@@ -87,7 +87,7 @@ const search = async (list, count, searchingBy) => {
     .skip(list * count)
     .limit(count)
     .select("fileUrl title description like likeCount views")
-    .populate({ path: "author", select: "userNickname" });
+    .populate({ path: "author", select: "userName" });
   return pieces;
 };
 
@@ -101,7 +101,7 @@ const fieldSearch = async (field, list, count, searchingBy) => {
     .skip(list * count)
     .limit(count)
     .select("fileUrl title description like likeCount views")
-    .populate({ path: "author", select: "userNickname" });
+    .populate({ path: "author", select: "userName" });
   return pieces;
 };
 
@@ -113,7 +113,7 @@ const searchByLike = async (list, count, searchingBy) => {
     .skip(list * count)
     .limit(count)
     .select("fileUrl title description like likeCount views")
-    .populate({ path: "author", select: "userNickname" });
+    .populate({ path: "author", select: "userName" });
   return pieces;
 };
 
@@ -125,7 +125,7 @@ const searchByView = async (list, count, searchingBy) => {
     .skip(list * count)
     .limit(count)
     .select("fileUrl title description like likeCount views")
-    .populate({ path: "author", select: "userNickname" });
+    .populate({ path: "author", select: "userName" });
   return pieces;
 };
 const fieldSearchByLike = async (field, list, count, searchingBy) => {
@@ -138,7 +138,7 @@ const fieldSearchByLike = async (field, list, count, searchingBy) => {
     .skip(list * count)
     .limit(count)
     .select("fileUrl title description like likeCount views")
-    .populate({ path: "author", select: "userNickname" });
+    .populate({ path: "author", select: "userName" });
   return pieces;
 };
 const fieldSearchByView = async (field, list, count, searchingBy) => {
@@ -151,7 +151,7 @@ const fieldSearchByView = async (field, list, count, searchingBy) => {
     .skip(list * count)
     .limit(count)
     .select("fileUrl title description like likeCount views")
-    .populate({ path: "author", select: "userNickname" });
+    .populate({ path: "author", select: "userName" });
   return pieces;
 };
 export const Searching = {

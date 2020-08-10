@@ -2,9 +2,8 @@ import mongoose from "mongoose";
 import Home from "./Home";
 
 const UserSchema = new mongoose.Schema({
-  userEmail: { type: String, required: true, trim: true, unique: true },
+  userId: { type: String, required: true, trim: true, unique: true },
   userPassword: { type: String, required: true },
-  userNickname: { type: String, required: true, unique: true },
   userName: { type: String },
   userBirth: { type: String },
   userPhone: { type: String },
