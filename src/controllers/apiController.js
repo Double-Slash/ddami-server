@@ -413,7 +413,7 @@ export const getSearch = async (req, res) => {
   }
 };
 
-const addSearch = async (req, res, searchingBy) => {
+export const addSearch = async (req, res, searchingBy) => {
   if (req.decoded) {
     try {
       const user = await Search.findOne({ user: req.decoded._id });
@@ -440,7 +440,7 @@ const addSearch = async (req, res, searchingBy) => {
   }
 };
 
-export const checkInclude = (data, req) => {
+const checkInclude = (data, req) => {
   if (!req.decoded) {
     return false;
   } else {
@@ -448,8 +448,8 @@ export const checkInclude = (data, req) => {
   }
 };
 
-const docToJSON = (req, pieces) => {
-  let obj = JSON.parse(JSON.stringify(pieces));
+export const docToJSON = (req, documents) => {
+  let obj = JSON.parse(JSON.stringify(documents));
   obj.forEach((e) => {
     e.likeByMe = checkInclude(e.like, req);
   });

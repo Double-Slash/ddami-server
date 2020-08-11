@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Home from "./Home";
 
 const UserSchema = new mongoose.Schema({
   userId: { type: String, required: true, trim: true, unique: true },
@@ -18,6 +17,7 @@ const UserSchema = new mongoose.Schema({
   state: { type: Boolean, default: false },
   myPieces: [{ type: mongoose.Schema.Types.ObjectId, ref: "Piece" }],
   like: [{ type: mongoose.Schema.Types.ObjectId, ref: "Piece" }],
+  likeProduct: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
   home: { type: mongoose.Schema.Types.ObjectId, ref: "Home" },
   created: {
     type: Date,

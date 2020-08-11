@@ -114,21 +114,6 @@
     "user": {}
     }
 
-## 따미 작품 샵 글 작성
-
-|        |                                                                                                                                                                               |
-| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| method | POST                                                                                                                                                                          |
-| url    | /shop/upload/piece                                                                                                                                                            |
-| Header | x-access-token                                                                                                                                                                |
-| Body   | <span style="color:gray">{"pieces":["5f313a23cb0e0f42d0a02b9c"],"title":"첫번쨰 판매","description":"1","price":10000,"hasField":["공예"],"locationName":"중앙대학교"}</span> |
-| Return |                                                                                                                                                                               |
-
-    {
-    "result": 1,
-    "message": "성공적으로 따미 작품샾에 업로드 하였습니다."
-    }
-
 
 ## 따미 마을 작품 검색
 
@@ -212,13 +197,13 @@ list
 
 1.  인기순 검색(팔로워 수)
 
-|             |                                                                                      |
-| ----------- | ------------------------------------------------------------------------------------ |
-| method      | POST or GET                                                                          |
-| url         | /api/author/search                                                                   |
-| Header      |                                                                                      |
-| Body(Query) | ex) <span style="color:gray">{"list":0, "count" = 2,"searchingBy":"wonseok" }</span> |
-| Return      |                                                                                      |
+|             |                                                                                    |
+| ----------- | ---------------------------------------------------------------------------------- |
+| method      | POST or GET                                                                        |
+| url         | /api/author/search                                                                 |
+| Header      |                                                                                    |
+| Body(Query) | ex) <span style="color:gray">{"list":0, "count":2,"searchingBy":"wonseok" }</span> |
+| Return      |                                                                                    |
 
     {
     "result": 0,
@@ -308,3 +293,111 @@ list
     }
 
 - 조회수 증가 => 해당 게시물을 10분 안에 조회했었으면 증가 x
+
+## 따미 작품 샵 글 작성
+
+|        |                                                                                                                                                                               |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| method | POST                                                                                                                                                                          |
+| url    | /shop/upload/piece                                                                                                                                                            |
+| Header | x-access-token                                                                                                                                                                |
+| Body   | <span style="color:gray">{"pieces":["5f313a23cb0e0f42d0a02b9c"],"title":"첫번쨰 판매","description":"1","price":10000,"hasField":["공예"],"locationName":"중앙대학교"}</span> |
+| Return |                                                                                                                                                                               |
+
+    {
+    "result": 1,
+    "message": "성공적으로 따미 작품샾에 업로드 하였습니다."
+    }
+
+## 따미 샾 검색
+
+1.  최신순/ 인기순 / 거리순  검색
+
+|             |                                                                              |
+| ----------- | ---------------------------------------------------------------------------- |
+| method      | POST or GET                                                                  |
+| url         | /shop/search/piece                                                           |
+| Header      |                                                                              |
+| Body(Query) | ex) <span style="color:gray">{"list":0, "count": 2,"searchingBy":"" }</span> |
+| Return      |                                                                              |
+
+
+    {
+    "result": 1,
+    "products": [
+        {
+            "pieces": [
+                {
+                    "fileUrl": [
+                        "http://222.251.129.150/uploads/1597129422996.jpg"
+                    ],
+                    "_id": "5f3242cfeaf0a645c0d38b63"
+                }
+            ],
+            "views": 0,
+            "like": [],
+            "likeCount": 0,
+            "state": 0,
+            "_id": "5f3243bceaf0a645c0d38b66",
+            "title": "나눔",
+            "price": 0,
+            "locationName": "연세대학교",
+            "likeByMe": false
+        },
+        {
+            "pieces": [
+                {
+                    "fileUrl": [
+                        "http://222.251.129.150/uploads/1597129410963.jpg",
+                        "http://222.251.129.150/uploads/1597129411100.jpg"
+                    ],
+                    "_id": "5f3242c3eaf0a645c0d38b62"
+                },
+                {
+                    "fileUrl": [
+                        "http://222.251.129.150/uploads/1597129429729.jpg",
+                        "http://222.251.129.150/uploads/1597129429865.jpg"
+                    ],
+                    "_id": "5f3242d6eaf0a645c0d38b64"
+                }
+            ],
+            "views": 0,
+            "like": [],
+            "likeCount": 0,
+            "state": 0,
+            "_id": "5f32438eeaf0a645c0d38b65",
+            "title": "싸게 판매",
+            "price": 12323,
+            "locationName": "연세대학교",
+            "likeByMe": false
+        }
+    ]
+}
+
+
+   
+
+<center>옵션[options]</center>
+
+searchingBy
+
+- 검색어
+
+sortingBy
+
+- D (default 최신순)
+- L (찜 순)
+- T (거리순)
+
+location 
+- []
+count
+
+- Default count=30
+- 출력 시킬 데이터 개수
+
+list
+
+- Default list =0
+- list:0 count:10 -> 0~9까지 출력
+- list:1 count:10 -> 10~19까지 출력

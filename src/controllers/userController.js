@@ -184,18 +184,21 @@ export const postUserDetail = async (req, res) => {
       path: "myPieces",
       select: "fileUrl title description like likeCount views",
     });
+  if (user === null) {
+    res.json({ result: 0, message: "사라진 사용자입니다." });
+  } else {
+    const home = await Home.findOne({ user: id });
+    //닉네임 팔로워수
+    let obj = user.toObject();
+    obj.follow = user.follow.length;
+    obj.follower = user.follower.length;
+    obj.myPieces.reverse();
+    obj.stateMessage = home.stateMessage;
 
-  const home = await Home.findOne({ user: id });
-  //닉네임 팔로워수
-  let obj = user.toObject();
-  obj.follow = user.follow.length;
-  obj.follower = user.follower.length;
-  obj.myPieces.reverse();
-  obj.stateMessage = home.stateMessage;
-
-  home.imageUrl ? (obj.imageUrl = home.imageUrl) : (obj.imageUrl = "");
-  console.log(obj);
-  res.json({ result: 0, user: obj });
+    home.imageUrl ? (obj.imageUrl = home.imageUrl) : (obj.imageUrl = "");
+    console.log(obj);
+    res.json({ result: 0, user: obj });
+  }
 };
 
 export const addLike = async (req, res) => {
