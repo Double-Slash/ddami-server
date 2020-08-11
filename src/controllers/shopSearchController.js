@@ -5,7 +5,9 @@ const allSearch = async (list, count) => {
     .sort({ created: -1 })
     .skip(list * count)
     .limit(count)
-    .select("pieces title likeCount price state like locationName views")
+    .select(
+      "pieces title likeCount price views likeCount state like locationName views"
+    )
     .populate({ path: "pieces", select: "fileUrl" });
 
   return product;
@@ -18,7 +20,9 @@ const allFieldSearch = async (field, list, count) => {
     .sort({ created: -1 })
     .skip(list * count)
     .limit(count)
-    .select("pieces title likeCount price state like locationName views")
+    .select(
+      "pieces title likeCount price views likeCount state like locationName views"
+    )
     .populate({ path: "pieces", select: "fileUrl" });
 
   return product;
@@ -29,7 +33,9 @@ const allSearchByLike = async (list, count) => {
     .sort({ likeCount: -1, created: -1 })
     .skip(list * count)
     .limit(count)
-    .select("pieces title likeCount price state like locationName views")
+    .select(
+      "pieces title likeCount price views likeCount state like locationName views"
+    )
     .populate({ path: "pieces", select: "fileUrl" });
 
   return product;
@@ -41,7 +47,9 @@ const allFieldSearchByLike = async (list, count) => {
     .sort({ likeCount: -1, created: -1 })
     .skip(list * count)
     .limit(count)
-    .select("pieces title likeCount price state like locationName views")
+    .select(
+      "pieces title likeCount price views likeCount state like locationName views"
+    )
     .populate({ path: "pieces", select: "fileUrl" });
 
   return product;
@@ -51,7 +59,9 @@ const allSearchByDistance = async (list, count) => {
     .sort({ views: -1, created: -1 })
     .skip(list * count)
     .limit(count)
-    .select("pieces title likeCount price state like locationName views")
+    .select(
+      "pieces title likeCount price views likeCount state like locationName views"
+    )
     .populate({ path: "pieces", select: "fileUrl" });
 
   return product;
@@ -64,7 +74,9 @@ const allFieldSearchByDistance = async (field, list, count) => {
     .sort({ views: -1, created: -1 })
     .skip(list * count)
     .limit(count)
-    .select("pieces title likeCount price state like locationName views")
+    .select(
+      "pieces title likeCount price views likeCount state like locationName views"
+    )
     .populate({ path: "pieces", select: "fileUrl" });
 
   return product;
@@ -86,7 +98,9 @@ const search = async (list, count, searchingBy) => {
     .sort({ created: -1 })
     .skip(list * count)
     .limit(count)
-    .select("pieces title likeCount price state like locationName views")
+    .select(
+      "pieces title likeCount price views likeCount state like locationName views"
+    )
     .populate({ path: "pieces", select: "fileUrl" });
   return product;
 };
@@ -100,7 +114,9 @@ const fieldSearch = async (field, list, count, searchingBy) => {
     .sort({ created: -1 })
     .skip(list * count)
     .limit(count)
-    .select("pieces title likeCount price state like locationName views")
+    .select(
+      "pieces title likeCount price views likeCount state like locationName views"
+    )
     .populate({ path: "pieces", select: "fileUrl" });
   return product;
 };
@@ -112,7 +128,9 @@ const searchByLike = async (list, count, searchingBy) => {
     .sort({ likeCount: -1, created: -1 })
     .skip(list * count)
     .limit(count)
-    .select("pieces title likeCount price state like locationName views")
+    .select(
+      "pieces title likeCount price views likeCount state like locationName views"
+    )
     .populate({ path: "pieces", select: "fileUrl" });
   return product;
 };
@@ -124,7 +142,9 @@ const searchByDistance = async (list, count, searchingBy) => {
     .sort({ views: -1, created: -1 })
     .skip(list * count)
     .limit(count)
-    .select("pieces title likeCount price state like locationName views")
+    .select(
+      "pieces title likeCount price views likeCount state like locationName views"
+    )
     .populate({ path: "pieces", select: "fileUrl" });
   return product;
 };
@@ -137,7 +157,9 @@ const fieldSearchByLike = async (field, list, count, searchingBy) => {
     .sort({ likeCount: -1, created: -1 })
     .skip(list * count)
     .limit(count)
-    .select("pieces title likeCount price state like locationName views")
+    .select(
+      "pieces title likeCount price views likeCount state like locationName views"
+    )
     .populate({ path: "pieces", select: "fileUrl" });
   return product;
 };
@@ -150,7 +172,9 @@ const fieldSearchByDistance = async (field, list, count, searchingBy) => {
     .sort({ views: -1, created: -1 })
     .skip(list * count)
     .limit(count)
-    .select("pieces title likeCount price state like locationName views")
+    .select(
+      "pieces title likeCount price views likeCount state like locationName views"
+    )
     .populate({ path: "pieces", select: "fileUrl" });
   return product;
 };

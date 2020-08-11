@@ -13,7 +13,7 @@
 | Return |                                                                              |
 
     {"result": 0, //성공시 1 실패시 0
-    "message": "wonseok5893@naver.com로 로그인 성공", // 성공,실패 메시지
+    "message": "ddami로 로그인 성공", // 성공,실패 메시지
     "token": "?"}
 
 1. 소셜 로그인
@@ -390,7 +390,9 @@ sortingBy
 - T (거리순)
 
 location 
-- []
+- [ longitude , latitude ]
+- 련재 위치나 기준점이되는 위치를 담아서 보내면
+- 가까운 순으로 정렬
 count
 
 - Default count=30
