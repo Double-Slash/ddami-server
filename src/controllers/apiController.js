@@ -13,7 +13,7 @@ export const getAuthorSearch = async (req, res) => {
   } = req;
   !list ? (list = 0) : (list = +list);
   !count ? (count = 30) : (count = +count);
-  if (!searchingBy) {
+  if (!searchingBy || searchingBy === "") {
     try {
       const authors = await User.find()
         .sort({ followerCount: -1 })
@@ -54,7 +54,7 @@ export const postAuthorSearch = async (req, res) => {
   } = req;
   !list ? (list = 0) : (list = +list);
   !count ? (count = 30) : (count = +count);
-  if (!searchingBy) {
+  if (!searchingBy || searchingBy === "") {
     try {
       const authors = await User.find()
         .sort({ followerCount: -1 })
@@ -97,7 +97,7 @@ export const postSearch = async (req, res) => {
   !list ? (list = 0) : (list = +list);
   !count ? (count = 30) : (count = +count);
 
-  if (!searchingBy) {
+  if (!searchingBy || searchingBy === "") {
     if (!sortingBy || sortingBy === "D") {
       if (!field || field.length == 0) {
         // 전체 분야
@@ -259,7 +259,7 @@ export const getSearch = async (req, res) => {
   !list ? (list = 0) : (list = +list);
   !count ? (count = 30) : (count = +count);
 
-  if (!searchingBy) {
+  if (!searchingBy || searchingBy === "") {
     if (!sortingBy || sortingBy === "D") {
       if (!field || field.length == 0) {
         // 전체 분야

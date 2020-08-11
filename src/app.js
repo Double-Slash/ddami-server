@@ -15,12 +15,12 @@ dotenv.config();
 const app = express();
 
 app.use(helmet());
+app.use("/uploads", express.static("./uploads/images/"));
 app.set("/", path.join(__dirname, "/"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(morgan("dev"));
-app.use("/uploads", express.static("./uploads/images/"));
 app.set("jwt-secret", process.env.SECRET);
 
 app.use(jwtMiddleware);

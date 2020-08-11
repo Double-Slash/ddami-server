@@ -54,30 +54,44 @@ const allFieldSearchByLike = async (list, count) => {
 
   return product;
 };
-const allSearchByDistance = async (list, count) => {
-  const product = await Product.find()
-    .sort({ views: -1, created: -1 })
-    .skip(list * count)
-    .limit(count)
-    .select(
-      "pieces title likeCount price views likeCount state like locationName views"
-    )
-    .populate({ path: "pieces", select: "fileUrl" });
-
+const allSearchByDistance = async (list, count, location) => {
+  console.log("거리순");
+  const product = await Product.aggregate([
+    {
+      $geoNear: {
+        spherical: true,
+        maxDistance: 500000,
+        near: {
+          type: "Point",
+          coordinates: location,
+        },
+        distanceField: "distance",
+        key: "location",
+      },
+    },
+    { $skip: list * count },
+    { $limit: count },
+  ]);
   return product;
 };
 
-const allFieldSearchByDistance = async (field, list, count) => {
-  const product = await Product.find()
-    .where("hasField")
-    .in(field)
-    .sort({ views: -1, created: -1 })
-    .skip(list * count)
-    .limit(count)
-    .select(
-      "pieces title likeCount price views likeCount state like locationName views"
-    )
-    .populate({ path: "pieces", select: "fileUrl" });
+const allFieldSearchByDistance = async (field, list, count, location) => {
+  const product = await Product.aggregate([
+    {
+      $geoNear: {
+        spherical: true,
+        maxDistance: 500000,
+        near: {
+          type: "Point",
+          coordinates: location,
+        },
+        distanceField: "distance",
+        key: "location",
+      },
+    },
+    { $skip: list * count },
+    { $limit: count },
+  ]);
 
   return product;
 };
@@ -135,17 +149,24 @@ const searchByLike = async (list, count, searchingBy) => {
   return product;
 };
 
-const searchByDistance = async (list, count, searchingBy) => {
-  const product = await Product.find({
-    title: { $regex: searchingBy, $options: "i" },
-  })
-    .sort({ views: -1, created: -1 })
-    .skip(list * count)
-    .limit(count)
-    .select(
-      "pieces title likeCount price views likeCount state like locationName views"
-    )
-    .populate({ path: "pieces", select: "fileUrl" });
+const searchByDistance = async (list, count, searchingBy, location) => {
+  const product = await Product.aggregate([
+    {
+      $geoNear: {
+        spherical: true,
+        maxDistance: 500000,
+        near: {
+          type: "Point",
+          coordinates: location,
+        },
+        distanceField: "distance",
+        key: "location",
+        query: { title: { $regex: searchingBy, $options: "i" } },
+      },
+    },
+    { $skip: list * count },
+    { $limit: count },
+  ]);
   return product;
 };
 const fieldSearchByLike = async (field, list, count, searchingBy) => {
@@ -163,19 +184,31 @@ const fieldSearchByLike = async (field, list, count, searchingBy) => {
     .populate({ path: "pieces", select: "fileUrl" });
   return product;
 };
-const fieldSearchByDistance = async (field, list, count, searchingBy) => {
-  const product = await Product.find({
-    title: { $regex: searchingBy, $options: "i" },
-  })
-    .where("hasField")
-    .in(field)
-    .sort({ views: -1, created: -1 })
-    .skip(list * count)
-    .limit(count)
-    .select(
-      "pieces title likeCount price views likeCount state like locationName views"
-    )
-    .populate({ path: "pieces", select: "fileUrl" });
+const fieldSearchByDistance = async (
+  field,
+  list,
+  count,
+  searchingBy,
+  location
+) => {
+  const product = await Product.aggregate([
+    {
+      $geoNear: {
+        spherical: true,
+        maxDistance: 500000,
+        near: {
+          type: "Point",
+          coordinates: location,
+        },
+        distanceField: "distance",
+        key: "location",
+        query: { title: { $regex: searchingBy, $options: "i" } },
+      },
+    },
+    { $skip: list * count },
+    { $limit: count },
+  ]);
+
   return product;
 };
 export const Searching = {

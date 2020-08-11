@@ -375,6 +375,8 @@ list
 }
 
 
+- 인기순 => searchingBy || sortingBy || count ||  list || field
+- 거리순 => searchingBy || sortingBy || count || list || location
    
 
 <center>옵션[options]</center>
@@ -388,11 +390,13 @@ sortingBy
 - D (default 최신순)
 - L (찜 순)
 - T (거리순)
+- 
+field
 
-location 
-- [ longitude , latitude ]
-- 련재 위치나 기준점이되는 위치를 담아서 보내면
-- 가까운 순으로 정렬
+- Default 전체 -> 파라미터 없으면 전체
+- [ 배열(String) ] 배열 요소중 한개라도 관련 있는 작품
+- 
+
 count
 
 - Default count=30
@@ -403,3 +407,11 @@ list
 - Default list =0
 - list:0 count:10 -> 0~9까지 출력
 - list:1 count:10 -> 10~19까지 출력
+
+
+location 
+- [ longitude , latitude ]
+- 현재 위치나 기준점이되는 위치 [경도,위도]
+- 가까운 순으로 정렬
+- 50km 이내로 제한을 둠
+- distance - 거리 (m) 

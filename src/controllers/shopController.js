@@ -3,9 +3,10 @@ import User from "../models/User";
 import Piece from "../models/Piece";
 import { converter } from "../university";
 import { AllSearch, Searching } from "./shopSearchController";
+import { addSearch } from "./apiController";
 
 export const uploadPiece = async (req, res) => {
-  //내껀지 검증먼저 pieces
+  //내껀지 검증먼저 pieces , state 검증
   const {
     body: { pieces, title, price, description, hasField, locationName },
   } = req; // pieces는 id 배열
@@ -40,13 +41,13 @@ export const uploadPiece = async (req, res) => {
 
 export const searchProduct = async (req, res) => {
   let {
-    body: { field, sortingBy, list, count, searchingBy },
+    body: { field, sortingBy, list, count, searchingBy, location },
   } = req;
 
   !list ? (list = 0) : (list = +list);
   !count ? (count = 30) : (count = +count);
 
-  if (!searchingBy) {
+  if (!searchingBy || searchingBy === "") {
     if (!sortingBy || sortingBy === "D") {
       if (!field || field.length == 0) {
         // 전체 분야
@@ -95,9 +96,18 @@ export const searchProduct = async (req, res) => {
       if (!field) {
         // 전체 분야
         try {
-          let obj = await AllSearch.allSearchByDistance(list, count);
-          obj = documentToJSON(req, obj);
-          res.status(200).json({ result: 1, products: obj });
+          let obj = await AllSearch.allSearchByDistance(list, count, location);
+          await Product.populate(
+            obj,
+            { path: "pieces", select: "fileUrl" },
+            function (err, products) {
+              if (err) res.json(err);
+              else {
+                obj = documentToJSON(req, products);
+                res.status(200).json({ result: 1, products: obj });
+              }
+            }
+          );
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -105,9 +115,23 @@ export const searchProduct = async (req, res) => {
       } else {
         // 부분 분야
         try {
-          let obj = await AllSearch.allSearchByView(field, list, count);
-          obj = documentToJSON(req, obj);
-          res.status(200).json({ result: 1, products: obj });
+          let obj = await AllSearch.allSearchByDistance(
+            field,
+            list,
+            count,
+            location
+          );
+          await Product.populate(
+            obj,
+            { path: "pieces", select: "fileUrl" },
+            function (err, products) {
+              if (err) res.json(err);
+              else {
+                obj = documentToJSON(req, products);
+                res.status(200).json({ result: 1, products: obj });
+              }
+            }
+          );
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -145,6 +169,7 @@ export const searchProduct = async (req, res) => {
         // 전체 분야
         try {
           let obj = await Searching.searchByLike(list, count, searchingBy);
+
           obj = documentToJSON(req, obj);
           res.status(200).json({ result: 1, products: obj });
         } catch (e) {
@@ -171,9 +196,23 @@ export const searchProduct = async (req, res) => {
       if (!field) {
         // 전체 분야
         try {
-          let obj = await Searching.searchByDistance(list, count, searchingBy);
-          obj = documentToJSON(req, obj);
-          res.status(200).json({ result: 1, products: obj });
+          let obj = await Searching.searchByDistance(
+            list,
+            count,
+            searchingBy,
+            location
+          );
+          await Product.populate(
+            obj,
+            { path: "pieces", select: "fileUrl" },
+            function (err, products) {
+              if (err) res.json(err);
+              else {
+                obj = documentToJSON(req, products);
+                res.status(200).json({ result: 1, products: obj });
+              }
+            }
+          );
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
@@ -185,10 +224,20 @@ export const searchProduct = async (req, res) => {
             field,
             list,
             count,
-            searchingBy
+            searchingBy,
+            location
           );
-          obj = documentToJSON(req, obj);
-          res.status(200).json({ result: 1, products: obj });
+          await Product.populate(
+            obj,
+            { path: "pieces", select: "fileUrl" },
+            function (err, products) {
+              if (err) res.json(err);
+              else {
+                obj = documentToJSON(req, products);
+                res.status(200).json({ result: 1, products: obj });
+              }
+            }
+          );
         } catch (e) {
           console.log(e);
           res.status(500).json({ result: 0, message: "DB 오류" });
