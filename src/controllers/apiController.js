@@ -440,7 +440,7 @@ export const addSearch = async (req, res, searchingBy) => {
   }
 };
 
-const checkInclude = (data, req) => {
+export const checkInclude = (data, req) => {
   if (!req.decoded) {
     return false;
   } else {

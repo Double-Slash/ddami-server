@@ -4,13 +4,13 @@
 
 1. 일반 로그인
 
-|        |                                                                                                                         |
-| ------ | ----------------------------------------------------------------------------------------------------------------------- |
-| method | POST                                                                                                                    |
-| url    | /user/login                                                                                                             |
-| Header | x-access-token                                                                                                          |
-| Body   | ex) <span style="color:gray">{"userEmail":"test@naver.com","userPassword":"1234", (android) "deviceToken":"---"}</span> |
-| Return |                                                                                                                         |
+|        |                                                                              |
+| ------ | ---------------------------------------------------------------------------- |
+| method | POST                                                                         |
+| url    | /user/login                                                                  |
+| Header | x-access-token                                                               |
+| Body   | ex) <span style="color:gray">{"userId":"ddami","userPassword":"1234"}</span> |
+| Return |                                                                              |
 
     {"result": 0, //성공시 1 실패시 0
     "message": "wonseok5893@naver.com로 로그인 성공", // 성공,실패 메시지
