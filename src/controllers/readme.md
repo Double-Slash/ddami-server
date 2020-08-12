@@ -81,10 +81,32 @@
         "myPieces": [
             {
                 "fileUrl": [
+                    "http://222.251.129.150/uploads/1597128245912.jpg"
+                ],
+                "views": 0,
+                "like": [],
+                "likeCount": 0,
+                "_id": "5f323e36085ba51d50ff5b3c",
+                "title": "sss",
+                "description": "sssss"
+            },
+            {
+                "fileUrl": [
+                    "http://222.251.129.150/uploads/1597128174782.jpg"
+                ],
+                "views": 0,
+                "like": [],
+                "likeCount": 0,
+                "_id": "5f323dee085ba51d50ff5b3b",
+                "title": "ddd",
+                "description": "ddddd"
+            },
+            {
+                "fileUrl": [
                     "http://222.251.129.150/uploads/1597061667017.jpg",
                     "http://222.251.129.150/uploads/1597061667368.jpg"
                 ],
-                "views": 0,
+                "views": 4,
                 "like": [],
                 "likeCount": 0,
                 "_id": "5f313a23cb0e0f42d0a02b9c",
@@ -92,10 +114,11 @@
                 "description": "this is a sample."
             }
         ],
-        "_id": "5f3139a8cb0e0f42d0a02b9a",
-        "userName": "최원석",
+        "imageUrl": "",
         "stateMessage": "안녕하세요 만나서 반가워요",
-        "imageUrl": ""
+        "_id": "5f3139a8cb0e0f42d0a02b9a",
+        "userId": "test",
+        "userName": "최원석"
     }
     }
 
@@ -132,34 +155,38 @@
     "pieces": [
         {
             "fileUrl": [
-                "http://222.251.129.150/uploads/1596522285578.jpg"
+                "http://222.251.129.150/uploads/1597129429729.jpg",
+                "http://222.251.129.150/uploads/1597129429865.jpg"
             ],
-            "views": 0,
+            "views": 21,
             "like": [],
-            "_id": "5f28ff2df0ffa63b848f7400",
-            "title": "sample10",
+            "likeCount": 0,
+            "_id": "5f3242d6eaf0a645c0d38b64",
+            "title": "sample12212",
             "description": "this is a sample.",
             "author": {
-                "_id": "5f28fe98f0ffa63b848f73f3",
-                "userNickname": "test"
+                "imageUrl": "",
+                "_id": "5f32426aeaf0a645c0d38b60",
+                "userId": "ddami"
             },
-            "likeCount": 0,
             "likeByMe": false
         },
         {
             "fileUrl": [
-                "http://222.251.129.150/uploads/1596522285578.jpg"
+                "http://222.251.129.150/uploads/1597061667017.jpg",
+                "http://222.251.129.150/uploads/1597061667368.jpg"
             ],
-            "views": 0,
+            "views": 4,
             "like": [],
-            "_id": "5f28ff2df0ffa63b848f7400",
-            "title": "sample10",
+            "likeCount": 0,
+            "_id": "5f313a23cb0e0f42d0a02b9c",
+            "title": "sample4",
             "description": "this is a sample.",
             "author": {
-                "_id": "5f28fe98f0ffa63b848f73f3",
-                "userNickname": "test"
+                "imageUrl": "",
+                "_id": "5f3139a8cb0e0f42d0a02b9a",
+                "userId": "test"
             },
-            "likeCount": 0,
             "likeByMe": false
         }
     ]
@@ -210,28 +237,26 @@ list
     "authors": [
         {
             "likeField": [
-                "예술",
-                "공예"
+                "공예",
+                "예술"
             ],
-            "_id": "5f2ea39c5828150768ac8276",
-            "userNickname": "wonseok",
-            "home": {
-                "imageUrl": "",
-                "stateMessage": "안녕하세요 만나서 반가워요"
-            },
+            "follower": [],
+            "imageUrl": "",
+            "stateMessage": "안녕하세요 만나서 반가워요",
+            "_id": "5f3139a8cb0e0f42d0a02b9a",
+            "userId": "test",
             "followByMe": false
         },
         {
             "likeField": [
-                "예술",
-                "공예"
+                "공예",
+                "예술"
             ],
-            "_id": "5f2ea4876d82bd2950067503",
-            "userNickname": "wonseok123",
-            "home": {
-                "imageUrl": "",
-                "stateMessage": "안녕하세요 만나서 반가워요"
-            },
+            "follower": [],
+            "imageUrl": "",
+            "stateMessage": "안녕하세요 만나서 반가워요",
+            "_id": "5f32426aeaf0a645c0d38b60",
+            "userId": "ddami",
             "followByMe": false
         }
     ]

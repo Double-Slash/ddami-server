@@ -54,13 +54,7 @@ export const postJoin = async (req, res) => {
         likeField,
       });
       const signedUser = await User.create(user);
-      const home = await Home.create({ user: user._id });
-      await User.findByIdAndUpdate(signedUser, { home: home._id }, (err) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-      });
+
       res.json({ result: 1, message: "회원가입 성공" });
     }
   } catch (error) {
@@ -179,7 +173,9 @@ export const postUserDetail = async (req, res) => {
     params: { id },
   } = req;
   const user = await User.findById(id)
-    .select("userName follow follower likeField state")
+    .select(
+      "userName userId follow follower likeField state imageUrl stateMessage"
+    )
     .populate({
       path: "myPieces",
       select: "fileUrl title description like likeCount views",
@@ -187,15 +183,12 @@ export const postUserDetail = async (req, res) => {
   if (user === null) {
     res.json({ result: 0, message: "사라진 사용자입니다." });
   } else {
-    const home = await Home.findOne({ user: id });
     //닉네임 팔로워수
     let obj = user.toObject();
     obj.follow = user.follow.length;
     obj.follower = user.follower.length;
     obj.myPieces.reverse();
-    obj.stateMessage = home.stateMessage;
 
-    home.imageUrl ? (obj.imageUrl = home.imageUrl) : (obj.imageUrl = "");
     console.log(obj);
     res.json({ result: 0, user: obj });
   }

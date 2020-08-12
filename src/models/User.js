@@ -13,12 +13,16 @@ const UserSchema = new mongoose.Schema({
   likeField: [{ type: String }],
   follow: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   follower: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  followerCount: { type: Number },
+  followerCount: { type: Number, default: 0 },
   state: { type: Boolean, default: false },
   myPieces: [{ type: mongoose.Schema.Types.ObjectId, ref: "Piece" }],
   like: [{ type: mongoose.Schema.Types.ObjectId, ref: "Piece" }],
   likeProduct: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-  home: { type: mongoose.Schema.Types.ObjectId, ref: "Home" },
+  imageUrl: { type: String, default: "" },
+  stateMessage: {
+    type: String,
+    default: `안녕하세요 만나서 반가워요`,
+  },
   created: {
     type: Date,
     default: Date.now,

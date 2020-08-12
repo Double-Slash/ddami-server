@@ -2,7 +2,6 @@ import Piece from "../models/Piece";
 import { AllSearch, Searching } from "./searchController";
 import User from "../models/User";
 import Search from "../models/Search";
-import Home from "../models/Home";
 import dotenv from "dotenv";
 import { Mongoose } from "mongoose";
 dotenv.config();
@@ -19,9 +18,10 @@ export const getAuthorSearch = async (req, res) => {
         .sort({ followerCount: -1 })
         .skip(list * count)
         .limit(count)
-        .select("userName likeField")
-        .populate({ path: "home", select: "imageUrl stateMessage" });
+        .select("userId likeField follower imageUrl stateMessage");
+
       let obj = JSON.parse(JSON.stringify(authors));
+
       obj.forEach((e) => {
         e.followByMe = checkInclude(e.follower, req);
       });
@@ -32,13 +32,12 @@ export const getAuthorSearch = async (req, res) => {
     }
   } else {
     const authors = await User.find({
-      userName: { $regex: searchingBy, $options: "i" },
+      userId: { $regex: searchingBy, $options: "i" },
     })
       .sort({ followerCount: -1 })
       .skip(list * count)
       .limit(count)
-      .select("userName likeField")
-      .populate({ path: "home", select: "imageUrl stateMessage" });
+      .select("userId likeField follower imageUrl stateMessage");
     let obj = JSON.parse(JSON.stringify(authors));
     obj.forEach((e) => {
       e.followByMe = checkInclude(e.follower, req);
@@ -60,8 +59,7 @@ export const postAuthorSearch = async (req, res) => {
         .sort({ followerCount: -1 })
         .skip(list * count)
         .limit(count)
-        .select("userName likeField")
-        .populate({ path: "home", select: "imageUrl stateMessage" });
+        .select("userId likeField follower imageUrl stateMessage");
       let obj = JSON.parse(JSON.stringify(authors));
       obj.forEach((e) => {
         e.followByMe = checkInclude(e.follower, req);
@@ -73,13 +71,12 @@ export const postAuthorSearch = async (req, res) => {
     }
   } else {
     const authors = await User.find({
-      userName: { $regex: searchingBy, $options: "i" },
+      userId: { $regex: searchingBy, $options: "i" },
     })
       .sort({ followerCount: -1 })
       .skip(list * count)
       .limit(count)
-      .select("userName likeField")
-      .populate({ path: "home", select: "imageUrl stateMessage" });
+      .select("userId likeField follower imageUrl stateMessage");
     let obj = JSON.parse(JSON.stringify(authors));
     obj.forEach((e) => {
       e.followByMe = checkInclude(e.follower, req);

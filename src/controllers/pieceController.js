@@ -7,7 +7,7 @@ export const getPieceDetail = async (req, res) => {
   } = req;
   const piece = await Piece.findOne({ _id: id }).populate({
     path: "author",
-    select: "userName",
+    select: "userId",
   });
   if (piece == null)
     res.json({ result: 0, message: "없거나 사라진 작품입니다." });

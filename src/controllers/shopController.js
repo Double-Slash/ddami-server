@@ -5,12 +5,21 @@ import { converter } from "../university";
 import { AllSearch, Searching } from "./shopSearchController";
 import { addSearch } from "./apiController";
 
+const checkPiece = (pieces, user) => {
+  for (const e of pieces) {
+    if (user.myPieces.indexOf(e) === -1) return false;
+  }
+  return true;
+};
+
 export const uploadPiece = async (req, res) => {
   //내껀지 검증먼저 pieces , state 검증
   const {
     body: { pieces, title, price, description, hasField, locationName },
   } = req; // pieces는 id 배열
   const user = await User.findById(req.decoded._Id);
+  if (!checkPiece(pieces, user))
+    res.json({ result: 0, message: "잘못된 접근이거나 없는 작품입니다." });
   try {
     const product = await Product({
       pieces,
