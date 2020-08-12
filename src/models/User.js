@@ -18,7 +18,11 @@ const UserSchema = new mongoose.Schema({
   myPieces: [{ type: mongoose.Schema.Types.ObjectId, ref: "Piece" }],
   like: [{ type: mongoose.Schema.Types.ObjectId, ref: "Piece" }],
   likeProduct: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-  imageUrl: { type: String, default: "" },
+  likeMaterial: [{ type: mongoose.Schema.Types.ObjectId, ref: "Material" }],
+  imageUrl: {
+    type: String,
+    default: "http://222.251.129.150/uploads/default.jpg",
+  },
   stateMessage: {
     type: String,
     default: `안녕하세요 만나서 반가워요`,

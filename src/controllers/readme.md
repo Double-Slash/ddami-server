@@ -139,6 +139,37 @@
         "_id": "5f32426aeaf0a645c0d38b60",
         "userName": "김따미"
     }
+    }
+
+## 내 작업실 피드
+
+|        |                |
+| ------ | -------------- |
+| method | POST           |
+| url    | /user/mypieces |
+| Header | x-access-token |
+| Body   | (anroid) token |
+| Return |                |
+
+    {
+    "result": 1,
+    "mypieces": [
+        {
+            "fileUrl": [
+                "http://222.251.129.150/uploads/1597061667017.jpg",
+                "http://222.251.129.150/uploads/1597061667368.jpg"
+            ],
+            "state": 1,
+            "_id": "5f313a23cb0e0f42d0a02b9c"
+        },
+        {
+            "fileUrl": [
+                "http://222.251.129.150/uploads/1597128174782.jpg"
+            ],
+            "state": 1,
+            "_id": "5f323dee085ba51d50ff5b3b"
+        }
+    ]
 }
 
 
@@ -337,6 +368,23 @@ list
     "result": 1,
     "message": "성공적으로 따미 작품샾에 업로드 하였습니다."
     }
+
+## 따미 재료 샵 글 작성
+
+|        |                                                                                                                                         |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| method | POST                                                                                                                                    |
+| url    | /shop/upload/material                                                                                                                   |
+| Header | x-access-token                                                                                                                          |
+| files  | 개수 <=3 name = "img"                                                                                                                   |
+| Body   | <span style="color:gray">{"title":"첫번쨰 판매","description":"1","price":10000,"hasField":["공예"],"locationName":"중앙대학교"}</span> |
+| Return |                                                                                                                                         |
+
+    {
+    "result": 1,
+    "message": "성공적으로 따미 재료샾에 업로드 하였습니다."
+    }
+
 
 ## 따미 샾 검색
 

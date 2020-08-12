@@ -221,3 +221,14 @@ export const addLike = async (req, res) => {
     }
   }
 };
+
+export const postMyPieces = async (req, res) => {
+  const user = await User.findById(req.decoded._id)
+    .select("myPieces")
+    .populate({ path: "myPieces", select: "fileUrl state" });
+  if (user === null)
+    res.json({ result: 0, message: "없어진 계정이거나 없는 계정입니다." });
+  else {
+    res.json({ result: 1, mypieces: user.myPieces });
+  }
+};

@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 const MaterialSchema = new mongoose.Schema(
   {
     fileUrl: [{ type: String }],
-    title: { type: String },
+    title: { type: String, required: true },
     description: { type: String },
-    price: { type: Number },
-    locationName: { type: String },
+    price: { type: Number, required: true },
+    locationName: { type: String, required: true },
     location: {
       type: [Number],
       default: [0, 0],
@@ -30,6 +30,6 @@ const MaterialSchema = new mongoose.Schema(
 //   return this.like.length;
 // });
 
-const model = mongoose.model("Product", MaterialSchema);
+const model = mongoose.model("Material", MaterialSchema);
 
 export default model;

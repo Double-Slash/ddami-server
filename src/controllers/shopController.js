@@ -1,18 +1,23 @@
 import Product from "../models/Product";
+import Material from "../models/Material";
 import User from "../models/User";
 import Piece from "../models/Piece";
 import { converter } from "../university";
-import { AllSearch, Searching } from "./shopSearchController";
+import { AllSearch, Searching } from "./productSearchController";
 import { addSearch } from "./apiController";
 
+export const myPieces = async (req, res) => {};
 export const uploadPiece = async (req, res) => {
   //내껀지 검증먼저 pieces
   const {
     body: { pieces, title, price, description, hasField, locationName },
   } = req; // pieces는 id 배열
   const user = await User.findById(req.decoded._id);
+  console.log(user);
   if (user === null)
     res.json({ result: 0, message: "사라지거나 없어진 계정입니다." });
+  else if (!pieces)
+    res.json({ result: 0, message: "작품을 하나 이상 선택해주세요" });
   else if (!checkMyPiece(pieces, user))
     res.json({ result: 0, message: "잘못된 접근이거나 없는 작품입니다." });
   else {
@@ -27,13 +32,15 @@ export const uploadPiece = async (req, res) => {
         locationName,
         location: converter(locationName),
       });
-      const madeProduct = await Product.create(product);
-      await Piece.findByIdAndUpdate(madeProduct._id, { state: 1 }, (err) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-      });
+      await Product.create(product);
+      for (const e of pieces) {
+        await Piece.findByIdAndUpdate(e, { state: 1 }, (err) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+        });
+      }
       res.json({
         result: 1,
         message: "성공적으로 따미 작품샾에 업로드 하였습니다.",
@@ -46,19 +53,23 @@ export const uploadPiece = async (req, res) => {
 };
 
 export const uploadMaterial = async (req, res) => {
+  console.log(req);
   //내껀지 검증먼저 pieces
   const {
-    body: { pieces, title, price, description, hasField, locationName },
-  } = req; // pieces는 id 배열
+    body: { title, price, description, hasField, locationName },
+  } = req;
   const user = await User.findById(req.decoded._id);
   if (user === null)
     res.json({ result: 0, message: "사라지거나 없어진 계정입니다." });
-  else if (!checkMyPiece(pieces, user))
-    res.json({ result: 0, message: "잘못된 접근이거나 없는 작품입니다." });
   else {
     try {
-      const product = await Product({
-        pieces,
+      const fileUrl = [];
+      if (req.files) {
+        for (var e of req.files)
+          fileUrl.push(`${process.env.BASE_URL}/uploads/${e.filename}`);
+      }
+      const material = await Material({
+        fileUrl,
         title,
         price,
         description,
@@ -67,16 +78,11 @@ export const uploadMaterial = async (req, res) => {
         locationName,
         location: converter(locationName),
       });
-      const madeProduct = await Product.create(product);
-      await Piece.findByIdAndUpdate(madeProduct._id, { state: 1 }, (err) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-      });
+      await Material.create(material);
+
       res.json({
         result: 1,
-        message: "성공적으로 따미 작품샾에 업로드 하였습니다.",
+        message: "성공적으로 따미 재료샾에 업로드 하였습니다.",
       });
     } catch (err) {
       console.log(err);
