@@ -1,6 +1,6 @@
 import User from "../models/User";
 import Piece from "../models/Piece";
-import Home from "../models/Home";
+import Student from "../models/Student";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
@@ -229,5 +229,44 @@ export const postMyPieces = async (req, res) => {
     res.json({ result: 0, message: "없어진 계정이거나 없는 계정입니다." });
   else {
     res.json({ result: 1, mypieces: user.myPieces });
+  }
+};
+
+export const authStudent = async (req, res) => {
+  const {
+    body: { university, department, number, likeField },
+  } = req;
+  const user = await User.findById(req.decoded._id);
+  if (user === null) {
+  } else if (user.state === true)
+    res.json({ result: 0, message: "이미 인증된 사용자입니다." });
+  else {
+    try {
+      if (!likeField) likeField = [];
+      const student = await Student({
+        user: req.decoded._id,
+        university,
+        department,
+        number,
+        authImage: req.file
+          ? `${process.env.BASE_URL}/uploads/${req.file.filename}`
+          : "",
+      });
+      await Student.create(student);
+
+      user.state = true;
+      user.likeField = likeField;
+      console.log(user);
+      await user.save((err) => {
+        if (!err) res.json({ result: 1, message: "미대생 인증 되었습니다." });
+        else {
+          console.log(err);
+          res.json({ result: 0, message: "DB 오류" });
+        }
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ result: 0, message: "DB 오류" });
+    }
   }
 };
