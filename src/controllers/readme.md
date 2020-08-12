@@ -386,7 +386,7 @@ list
     }
 
 
-## 따미 샾 검색
+## 따미 작품 샾 검색
 
 1.  최신순/ 인기순 / 거리순  검색
 
@@ -450,6 +450,91 @@ list
         }
     ]
 }
+
+
+- 인기순 => searchingBy || sortingBy || count ||  list || field
+- 거리순 => searchingBy || sortingBy || count || list || location
+   
+
+<center>옵션[options]</center>
+
+searchingBy
+
+- 검색어
+
+sortingBy
+
+- D (default 최신순)
+- L (찜 순)
+- T (거리순)
+- 
+field
+
+- Default 전체 -> 파라미터 없으면 전체
+- [ 배열(String) ] 배열 요소중 한개라도 관련 있는 작품
+- 
+
+count
+
+- Default count=30
+- 출력 시킬 데이터 개수
+
+list
+
+- Default list =0
+- list:0 count:10 -> 0~9까지 출력
+- list:1 count:10 -> 10~19까지 출력
+
+
+location 
+- [ longitude , latitude ]
+- 현재 위치나 기준점이되는 위치 [경도,위도]
+- 가까운 순으로 정렬
+- 50km 이내로 제한을 둠
+- distance - 거리 (m) 
+
+## 따미 재료 샾 검색
+
+1.  최신순/ 인기순 / 거리순  검색
+
+|             |                                                                                           |
+| ----------- | ----------------------------------------------------------------------------------------- |
+| method      | POST or GET                                                                               |
+| url         | /shop/search/material                                                                     |
+| Header      |                                                                                           |
+| Body(Query) | ex) <span style="color:gray">{"sortingBy":"T","list":1,"count":2,"location":[1,2]}</span> |
+| Return      |                                                                                           |
+
+
+    {
+    "result": 1,
+    "products": [
+        {
+            "_id": "5f33bc6833877c45c8fc263e",
+            "fileUrl": [],
+            "location": [
+                0,
+                0
+            ],
+            "hasField": [
+                "공예"
+            ],
+            "views": 0,
+            "like": [],
+            "likeCount": 0,
+            "state": 0,
+            "title": "나눔",
+            "price": 0,
+            "description": "1",
+            "author": "5f3139a8cb0e0f42d0a02b9a",
+            "locationName": "한양대학교",
+            "created": "2020-08-12T09:54:48.681Z",
+            "__v": 0,
+            "distance": 248906.39350564353,
+            "likeByMe": false
+        }
+    ]
+    }
 
 
 - 인기순 => searchingBy || sortingBy || count ||  list || field

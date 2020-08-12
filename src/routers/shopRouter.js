@@ -6,6 +6,7 @@ import {
   uploadPiece,
   searchProduct,
   uploadMaterial,
+  searchMaterial,
 } from "../controllers/shopController";
 const shopRouter = express.Router();
 
@@ -18,5 +19,6 @@ shopRouter.post(
 );
 shopRouter.post("/upload/material", checkUser, uploadMaterial);
 shopRouter.post("/search/piece", searchProduct);
+shopRouter.post("/search/material", searchMaterial);
 
 export default shopRouter;

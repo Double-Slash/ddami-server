@@ -3,7 +3,7 @@ import Piece from "../models/Piece";
 import Home from "../models/Home";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { sendMessage } from "../pushAlarm";
+
 dotenv.config();
 
 const checkAndroid = (req) => {
@@ -92,7 +92,6 @@ export const postLogin = async (req, res) => {
           (err, token) => {
             if (!err) {
               console.log("로그인 성공");
-              sendMessage(deviceToken, "진희님", "안녕");
               if (checkAndroid(req)) {
                 if (user.deviceToken) {
                   if (user.deviceToken !== deviceToken) {

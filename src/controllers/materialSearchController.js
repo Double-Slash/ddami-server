@@ -92,7 +92,7 @@ const allFieldSearchByDistance = async (field, list, count, location) => {
   return material;
 };
 
-export const AllSearch = {
+export const AllSearch2 = {
   allSearch,
   allSearchByLike,
   allSearchByDistance,
@@ -203,7 +203,7 @@ const fieldSearchByDistance = async (
 
   return material;
 };
-export const Searching = {
+export const Searching2 = {
   search,
   fieldSearch,
   searchByLike,

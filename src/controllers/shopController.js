@@ -4,6 +4,7 @@ import User from "../models/User";
 import Piece from "../models/Piece";
 import { converter } from "../university";
 import { AllSearch, Searching } from "./productSearchController";
+import { AllSearch2, Searching2 } from "./materialSearchController";
 import { addSearch } from "./apiController";
 
 export const myPieces = async (req, res) => {};
@@ -273,6 +274,216 @@ export const searchProduct = async (req, res) => {
         // 부분 분야
         try {
           let obj = await Searching.fieldSearchByDistance(
+            field,
+            list,
+            count,
+            searchingBy,
+            location
+          );
+          await Product.populate(
+            obj,
+            { path: "pieces", select: "fileUrl" },
+            function (err, products) {
+              if (err) res.json(err);
+              else {
+                obj = documentToJSON(req, products);
+                res.status(200).json({ result: 1, products: obj });
+              }
+            }
+          );
+        } catch (e) {
+          console.log(e);
+          res.status(500).json({ result: 0, message: "DB 오류" });
+        }
+      }
+    } else {
+      res.json({ result: 0, message: "잘못된 형식입니다." });
+    }
+  }
+};
+
+export const searchMaterial = async (req, res) => {
+  let {
+    body: { field, sortingBy, list, count, searchingBy, location },
+  } = req;
+
+  !list ? (list = 0) : (list = +list);
+  !count ? (count = 30) : (count = +count);
+
+  if (!searchingBy || searchingBy === "") {
+    if (!sortingBy || sortingBy === "D") {
+      if (!field || field.length == 0) {
+        // 전체 분야
+        try {
+          let obj = await AllSearch2.allSearch(list, count);
+          obj = documentToJSON(req, obj);
+          res.status(200).json({ result: 1, products: obj });
+        } catch (e) {
+          console.log(e);
+          res.status(500).json({ result: 0, message: "DB 오류" });
+        }
+      } else {
+        // 부분 분야
+        try {
+          let obj = await AllSearch2.fieldSearch(field, list, count);
+          obj = documentToJSON(req, obj);
+          res.status(200).json({ result: 1, products: obj });
+        } catch (e) {
+          console.log(e);
+          res.status(500).json({ result: 0, message: "DB 오류" });
+        }
+      }
+    } else if (sortingBy === "L") {
+      if (!field) {
+        // 전체 분야
+        try {
+          let obj = await AllSearch2.allSearchByLike(list, count);
+          obj = documentToJSON(req, obj);
+          res.status(200).json({ result: 1, products: obj });
+        } catch (e) {
+          console.log(e);
+          res.status(500).json({ result: 0, message: "DB 오류" });
+        }
+      } else {
+        // 부분 분야
+        try {
+          let obj = await AllSearch2.allFieldSearchByLike(field, list, count);
+          obj = documentToJSON(req, obj);
+          res.status(200).json({ result: 1, products: obj });
+        } catch (e) {
+          console.log(e);
+          res.status(500).json({ result: 0, message: "DB 오류" });
+        }
+      }
+    } else if (sortingBy === "T") {
+      if (!field) {
+        // 전체 분야
+        try {
+          let obj = await AllSearch2.allSearchByDistance(list, count, location);
+          await Product.populate(
+            obj,
+            { path: "pieces", select: "fileUrl" },
+            function (err, products) {
+              if (err) res.json(err);
+              else {
+                obj = documentToJSON(req, products);
+                res.status(200).json({ result: 1, products: obj });
+              }
+            }
+          );
+        } catch (e) {
+          console.log(e);
+          res.status(500).json({ result: 0, message: "DB 오류" });
+        }
+      } else {
+        // 부분 분야
+        try {
+          let obj = await AllSearch2.allSearchByDistance(
+            field,
+            list,
+            count,
+            location
+          );
+          await Product.populate(
+            obj,
+            { path: "pieces", select: "fileUrl" },
+            function (err, products) {
+              if (err) res.json(err);
+              else {
+                obj = documentToJSON(req, products);
+                res.status(200).json({ result: 1, products: obj });
+              }
+            }
+          );
+        } catch (e) {
+          console.log(e);
+          res.status(500).json({ result: 0, message: "DB 오류" });
+        }
+      }
+    } else {
+      res.json({ result: 0, message: "잘못된 형식입니다." });
+    }
+  } else {
+    addSearch(req, res, searchingBy);
+    if (!sortingBy || sortingBy === "D") {
+      if (!field || field.length == 0) {
+        // 전체 분야
+        try {
+          let obj = await Searching2.search(list, count, searchingBy);
+          obj = documentToJSON(req, obj);
+          res.status(200).json({ result: 1, products: obj });
+        } catch (e) {
+          console.log(e);
+          res.status(500).json({ result: 0, message: "DB 오류" });
+        }
+      } else {
+        // 부분 분야
+        try {
+          let obj = await Searching2.fieldSearch(list, count, searchingBy);
+          obj = documentToJSON(req, obj);
+          res.status(200).json({ result: 1, products: obj });
+        } catch (e) {
+          console.log(e);
+          res.status(500).json({ result: 0, message: "DB 오류" });
+        }
+      }
+    } else if (sortingBy === "L") {
+      if (!field) {
+        // 전체 분야
+        try {
+          let obj = await Searching2.searchByLike(list, count, searchingBy);
+
+          obj = documentToJSON(req, obj);
+          res.status(200).json({ result: 1, products: obj });
+        } catch (e) {
+          console.log(e);
+          res.status(500).json({ result: 0, message: "DB 오류" });
+        }
+      } else {
+        // 부분 분야
+        try {
+          let obj = await Searching2.fieldSearchByLike(
+            field,
+            list,
+            count,
+            searchingBy
+          );
+          obj = documentToJSON(req, obj);
+          res.status(200).json({ result: 1, products: obj });
+        } catch (e) {
+          console.log(e);
+          res.status(500).json({ result: 0, message: "DB 오류" });
+        }
+      }
+    } else if (sortingBy === "T") {
+      if (!field) {
+        // 전체 분야
+        try {
+          let obj = await Searching2.searchByDistance(
+            list,
+            count,
+            searchingBy,
+            location
+          );
+          await Product.populate(
+            obj,
+            { path: "pieces", select: "fileUrl" },
+            function (err, products) {
+              if (err) res.json(err);
+              else {
+                obj = documentToJSON(req, products);
+                res.status(200).json({ result: 1, products: obj });
+              }
+            }
+          );
+        } catch (e) {
+          console.log(e);
+          res.status(500).json({ result: 0, message: "DB 오류" });
+        }
+      } else {
+        // 부분 분야
+        try {
+          let obj = await Searching2.fieldSearchByDistance(
             field,
             list,
             count,
