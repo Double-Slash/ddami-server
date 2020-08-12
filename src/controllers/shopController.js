@@ -5,46 +5,83 @@ import { converter } from "../university";
 import { AllSearch, Searching } from "./shopSearchController";
 import { addSearch } from "./apiController";
 
-const checkPiece = (pieces, user) => {
-  for (const e of pieces) {
-    if (user.myPieces.indexOf(e) === -1) return false;
-  }
-  return true;
-};
-
 export const uploadPiece = async (req, res) => {
-  //내껀지 검증먼저 pieces , state 검증
+  //내껀지 검증먼저 pieces
   const {
     body: { pieces, title, price, description, hasField, locationName },
   } = req; // pieces는 id 배열
-  const user = await User.findById(req.decoded._Id);
-  if (!checkPiece(pieces, user))
+  const user = await User.findById(req.decoded._id);
+  if (user === null)
+    res.json({ result: 0, message: "사라지거나 없어진 계정입니다." });
+  else if (!checkMyPiece(pieces, user))
     res.json({ result: 0, message: "잘못된 접근이거나 없는 작품입니다." });
-  try {
-    const product = await Product({
-      pieces,
-      title,
-      price,
-      description,
-      author: req.decoded._id,
-      hasField,
-      locationName,
-      location: converter(locationName),
-    });
-    const madeProduct = await Product.create(product);
-    await Piece.findByIdAndUpdate(madeProduct._id, { state: 1 }, (err) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-    });
-    res.json({
-      result: 1,
-      message: "성공적으로 따미 작품샾에 업로드 하였습니다.",
-    });
-  } catch (err) {
-    console.log(err);
-    res.json({ result: 0, message: "DB 오류" });
+  else {
+    try {
+      const product = await Product({
+        pieces,
+        title,
+        price,
+        description,
+        author: req.decoded._id,
+        hasField,
+        locationName,
+        location: converter(locationName),
+      });
+      const madeProduct = await Product.create(product);
+      await Piece.findByIdAndUpdate(madeProduct._id, { state: 1 }, (err) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+      });
+      res.json({
+        result: 1,
+        message: "성공적으로 따미 작품샾에 업로드 하였습니다.",
+      });
+    } catch (err) {
+      console.log(err);
+      res.json({ result: 0, message: "DB 오류" });
+    }
+  }
+};
+
+export const uploadMaterial = async (req, res) => {
+  //내껀지 검증먼저 pieces
+  const {
+    body: { pieces, title, price, description, hasField, locationName },
+  } = req; // pieces는 id 배열
+  const user = await User.findById(req.decoded._id);
+  if (user === null)
+    res.json({ result: 0, message: "사라지거나 없어진 계정입니다." });
+  else if (!checkMyPiece(pieces, user))
+    res.json({ result: 0, message: "잘못된 접근이거나 없는 작품입니다." });
+  else {
+    try {
+      const product = await Product({
+        pieces,
+        title,
+        price,
+        description,
+        author: req.decoded._id,
+        hasField,
+        locationName,
+        location: converter(locationName),
+      });
+      const madeProduct = await Product.create(product);
+      await Piece.findByIdAndUpdate(madeProduct._id, { state: 1 }, (err) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+      });
+      res.json({
+        result: 1,
+        message: "성공적으로 따미 작품샾에 업로드 하였습니다.",
+      });
+    } catch (err) {
+      console.log(err);
+      res.json({ result: 0, message: "DB 오류" });
+    }
   }
 };
 
@@ -272,4 +309,13 @@ const documentToJSON = (req, documents) => {
     e.likeByMe = checkLike(e.like, req);
   });
   return obj;
+};
+
+const checkMyPiece = (pieces, user) => {
+  console.log(user);
+  for (const e of pieces) {
+    console.log(e);
+    if (user.myPieces.indexOf(e) === -1) return false;
+  }
+  return true;
 };

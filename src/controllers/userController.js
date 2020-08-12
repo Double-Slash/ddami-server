@@ -21,12 +21,14 @@ export const checkUserId = async (req, res) => {
   }
 };
 export const postAuth = async (req, res) => {
-  const user = await User.findById(req.decoded._id);
+  const user = await User.findById(req.decoded._id).select("imageUrl userName");
   if (user === null)
     res.json({ result: 0, message: "없어진 계정이거나 없는 계정입니다." });
   else {
+    res.json({ result: 1, myInfo: user });
   }
 };
+
 export const postJoin = async (req, res) => {
   const {
     body: {
@@ -201,7 +203,8 @@ export const addLike = async (req, res) => {
   const piece = await Piece.findOne({ _id: id });
   if (piece == null)
     res.status(404).json({ result: 0, message: "사라지거나 없는 작품입니다." });
-  else {
+  else if (piece) {
+  } else {
     const user = await User.findById(req.decoded._id);
     try {
       piece.like.push(req.decoded._id);

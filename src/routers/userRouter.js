@@ -6,6 +6,7 @@ import {
   postUserDetail,
   addLike,
   checkUserId,
+  postAuth,
 } from "../controllers/userController";
 
 import { multerImage } from "../multerMiddleware";
@@ -24,5 +25,6 @@ userRouter.post(
 );
 userRouter.post("/like/:id", checkUser, addLike);
 userRouter.post("/checkId", checkUserId);
+userRouter.post("/auth", checkUser, postAuth);
 
 export default userRouter;

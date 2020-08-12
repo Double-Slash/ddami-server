@@ -133,9 +133,13 @@
 | Return |                |
 
     {
-    "result": 0,
-    "user": {}
+    "result": 1,
+    "myInfo": {
+        "imageUrl": "",
+        "_id": "5f32426aeaf0a645c0d38b60",
+        "userName": "김따미"
     }
+}
 
 
 ## 따미 마을 작품 검색
