@@ -372,11 +372,13 @@ list
 | Return      |                     |
 
     {
-    "likes": [
+    "result": 1,
+    "likeProducts": [
         {
             "fileUrl": [
                 "http://222.251.129.150/uploads/material.jpg"
             ],
+            "state": 0,
             "_id": "5f3500c3b6789b2ae0da781f",
             "title": "바",
             "locationName": "연세대학교",
@@ -391,6 +393,7 @@ list
                     "_id": "5f3242cfeaf0a645c0d38b63"
                 }
             ],
+            "state": 0,
             "_id": "5f33c101e190c12758d4c624",
             "title": "작품이름 (작품이름은 한줄만 나오게 해주세요) ",
             "locationName": "연세대학교",

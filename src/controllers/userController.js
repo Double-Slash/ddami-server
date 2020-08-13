@@ -333,7 +333,7 @@ export const postLikeProducts = async (req, res) => {
     .select("likeProduct likeMaterial")
     .populate({
       path: "likeProduct",
-      select: "title pieces locationName created",
+      select: "title pieces locationName state created",
     });
   if (user === null)
     res.json({ result: 0, message: "없어진 계정이거나 없는 계정입니다." });
@@ -346,7 +346,7 @@ export const postLikeProducts = async (req, res) => {
       user,
       {
         path: "likeMaterial",
-        select: "title fileUrl locationName created",
+        select: "title fileUrl locationName state created",
       },
       (err, docs) => {
         if (err) console.log(err);
@@ -354,23 +354,13 @@ export const postLikeProducts = async (req, res) => {
           console.log(docs);
           let obj = docs.toObject();
           obj.likeProduct.pieces = object;
-          let result = {};
-          result.likes = obj.likeProduct.concat(obj.likeMaterial);
-          result.likes.sort((b, a) => a.created - b.created);
-          res.json(200, result);
+          let resultObject = {};
+          resultObject.likes = obj.likeProduct.concat(obj.likeMaterial);
+          resultObject.likes.sort((b, a) => a.created - b.created);
+          res.json({ result: 1, likeProducts: resultObject.likes });
         }
       }
     );
-
-    // let obj = user.toObject();
-    // await User.populate(
-    //   obj.like,
-    //   { path: "author", select: "userId userName" },
-    //   (err, docs) => {
-    //     if (!err) res.json({ result: 1, likes: docs });
-    //     else console.log(err);
-    //   }
-    // );
   }
 };
 
