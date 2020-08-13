@@ -580,6 +580,26 @@ list
 
 - 조회수 증가 => 해당 게시물을 10분 안에 조회했었으면 증가 x
 
+## 댓글 정보 가져오기 ( 대댓글 가져올시 활용 )
+
+|             |             |
+| ----------- | ----------- |
+| method      | POST or GET |
+| url         | /detail/:id |
+| Header      |             |
+| Body(Query) |             |
+| Return      |             |
+
+    {
+    "result": 1,
+    "comment": {
+        "comments": [],
+        "_id": "5f3591acd24e7e4688477318",
+        "user": "5f3139a8cb0e0f42d0a02b9a",
+        "content": "세번째 댓글",
+        "created": "2020-08-13T19:17:00.318Z",
+    }
+}
 
 ## 따미 샾 작품,재료 좋아요
 

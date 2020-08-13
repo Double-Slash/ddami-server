@@ -1,7 +1,7 @@
 import Piece from "../models/Piece";
 import Comment from "../models/Comment";
 import User from "../models/User";
-import { checkInclude } from "./apiController";
+import { checkInclude, docToJSON } from "./apiController";
 import userRouter from "../routers/userRouter";
 
 export const getPieceDetail = async (req, res) => {
@@ -16,6 +16,7 @@ export const getPieceDetail = async (req, res) => {
     res.json({ result: 0, message: "없거나 사라진 작품입니다." });
   else {
     let obj = piece.toObject();
+
     obj = await Comment.populate(obj, {
       path: "comments",
       select: "user content comments created",
@@ -24,6 +25,7 @@ export const getPieceDetail = async (req, res) => {
       path: "user",
       select: "imageUrl userId userName",
     });
+
     obj.comments = commentsInfo;
     obj.likeByUser = checkInclude(piece.like, req);
     res.json({ result: 1, piece: obj });

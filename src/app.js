@@ -10,6 +10,7 @@ import userRouter from "./routers/userRouter";
 import apiRouter from "./routers/apiRouter";
 import pieceRouter from "./routers/pieceRouter";
 import shopRouter from "./routers/shopRouter";
+import commentRouter from "./routers/commentRouter";
 dotenv.config();
 
 const app = express();
@@ -35,4 +36,5 @@ app.use("/user", userRouter);
 app.use("/api", apiRouter);
 app.use("/piece", pieceRouter);
 app.use("/shop", shopRouter);
+app.use("/comment", commentRouter);
 export default app;
