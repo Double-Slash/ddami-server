@@ -14,6 +14,7 @@ import {
   postLikeProducts,
   addLikeProduct,
   addFollow,
+  postUploadComment,
 } from "../controllers/userController";
 
 import { multerImage } from "../multerMiddleware";
@@ -24,6 +25,7 @@ userRouter.post("/join", postJoin);
 userRouter.post("/login", postLogin);
 userRouter.post("/detail/:id", postUserDetail);
 userRouter.get("/detail/:id", postUserDetail);
+userRouter.post("/write/comment/:id", postUploadComment);
 userRouter.post(
   "/upload/piece",
   checkUser,

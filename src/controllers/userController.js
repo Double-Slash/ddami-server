@@ -1,5 +1,6 @@
 import User from "../models/User";
 import Piece from "../models/Piece";
+import Comment from "../models/Comment";
 import Product from "../models/Product";
 import Material from "../models/Material";
 import Student from "../models/Student";
@@ -495,5 +496,43 @@ export const addFollow = async (req, res) => {
     } catch (err) {
       res.status(500).json({ result: 0, message: "DB 오류" });
     }
+  }
+};
+
+export const postUploadComment = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  const {
+    body: { content },
+  } = req;
+
+  const piece = await Piece.findById(id);
+  try {
+    if (piece == null) {
+      const comment = await Comment.findById(id);
+      if (comment == null) {
+        res.json({ result: 0, message: "입력값 오류" });
+      } else {
+        const newComment = await Comment({ user: req.decoded._id, content });
+        const madeComment = await Comment.create(newComment);
+        comment.comments.push(madeComment._id);
+        await comment.save((err) => {
+          if (err) console.log(err);
+          else res.json({ result: 1, message: "대댓글 작성 완료" });
+        });
+      }
+    } else {
+      const newComment = await Comment({ user: req.decoded._id, content });
+      const madeComment = await Comment.create(newComment);
+      piece.comments.push(madeComment._id);
+      await piece.save((err) => {
+        if (err) console.log(err);
+        else res.json({ result: 1, message: "댓글 작성 완료" });
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.json({ result: 0, message: "DB 오류" });
   }
 };

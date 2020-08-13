@@ -58,7 +58,7 @@
     {"result": 0, // 성공시 1, 실패시 0
     "message": "DB 오류" // 성공,실패 메시지}
 
-## 사용자 상세보기
+## 사용자 상세보기 (다른 사용자 작업실)
 
 |             |                  |
 | ----------- | ---------------- |
@@ -229,15 +229,30 @@
     "message": "미대생 인증 되었습니다."
     }
 
+### 작품 댓글 or 대댓글 작성
+
+|        |                                                           |
+| ------ | --------------------------------------------------------- |
+| method | POST                                                      |
+| url    | /user/write/comment/:id   (작품 id, 댓글 id)              |
+| Header |                                                           |
+| Body   | ex) <span style="color:gray">{"content":"첫 댓글"}</span> |
+| Return |                                                           |
+
+    {
+    "result": 1,
+    "message": "대댓글 작성 완료"
+    }
+
 ## 다른 사용자 팔로우
 
-|             |                  |
-| ----------- | ---------------- |
-| method      | POST or GET      |
-| url         | /user/follow/:id |
-| Header      | x-access token   |
-| Body(Query) |                  |
-| Return      |                  |
+|             |                              |
+| ----------- | ---------------------------- |
+| method      | POST or GET                  |
+| url         | /user/follow/:id (사용자 id) |
+| Header      | x-access token               |
+| Body(Query) |                              |
+| Return      |                              |
 
     {
     "result": 1,
@@ -328,13 +343,13 @@ list
 
 ## 따미 마을 작품 좋아요
 
-|             |                      |
-| ----------- | -------------------- |
-| method      | POST or GET          |
-| url         | /user/like/piece/:id |
-| Header      | x-access token       |
-| Body(Query) |                      |
-| Return      |                      |
+|             |                                |
+| ----------- | ------------------------------ |
+| method      | POST or GET                    |
+| url         | /user/like/piece/:id (작품 id) |
+| Header      | x-access token                 |
+| Body(Query) |                                |
+| Return      |                                |
 
     {
     "result": 1,
@@ -513,44 +528,68 @@ list
 
     {
     "result": 1,
-    "obj": {
+    "piece": {
         "fileUrl": [
-            "http://222.251.129.150/uploads/1596639446269.jpg",
-            "http://222.251.129.150/uploads/1596639446356.jpg"
+            "http://222.251.129.150/uploads/1597309264240.jpg"
         ],
-        "comments": [],
-        "hasField": [
-            "공예"
+        "comments": [
+            {
+                "comments": [
+                    "5f35911bd24e7e4688477317"
+                ],
+                "_id": "5f358e19a5c6d03550704709",
+                "user": {
+                    "imageUrl": "http://222.251.129.150/uploads/default.jpg",
+                    "_id": "5f3139a8cb0e0f42d0a02b9a",
+                    "userId": "test",
+                    "userName": "최원석"
+                },
+                "content": "첫 댓글",
+                "created": "2020-08-13T19:01:45.317Z"
+            },
+            {
+                "comments": [],
+                "_id": "5f359071d24e7e4688477316",
+                "user": {
+                    "imageUrl": "http://222.251.129.150/uploads/default.jpg",
+                    "_id": "5f3139a8cb0e0f42d0a02b9a",
+                    "userId": "test",
+                    "userName": "최원석"
+                },
+                "content": "두번째 댓글",
+                "created": "2020-08-13T19:11:45.281Z"
+            }
         ],
-        "views": 1,
-        "like": [
-            "5f2ac85b8f56110128e4a873"
-        ],
-        "likeCount": 1,
-        "_id": "5f2ac8d68f56110128e4a885",
-        "title": "sample15",
-        "description": "this is a sample.",
+        "hasField": [],
+        "views": 4,
+        "like": [],
+        "likeCount": 0,
+        "state": 0,
+        "_id": "5f350150b6789b2ae0da7820",
+        "title": "dddd",
+        "description": "dddddd",
         "author": {
-            "_id": "5f2ac85b8f56110128e4a873",
-            "userNickname": "test"
+            "_id": "5f326322a4f43a3a70b9b701",
+            "userId": "test6"
         },
-        "created": "2020-08-05T14:57:26.589Z", //ISO 8601 date 형식 한국시간 -9시간
+        "created": "2020-08-13T09:01:04.680Z",
+        "__v": 2,
         "likeByUser": false
     }
-    }
+    }   
 
 - 조회수 증가 => 해당 게시물을 10분 안에 조회했었으면 증가 x
 
 
 ## 따미 샾 작품,재료 좋아요
 
-|             |                        |
-| ----------- | ---------------------- |
-| method      | POST or GET            |
-| url         | /user/like/product/:id |
-| Header      | x-access-token         |
-| Body(Query) |                        |
-| Return      |                        |
+|             |                                            |
+| ----------- | ------------------------------------------ |
+| method      | POST or GET                                |
+| url         | /user/like/product/:id (작품id or 재료 id) |
+| Header      | x-access-token                             |
+| Body(Query) |                                            |
+| Return      |                                            |
 
     {
     "result": 1,
