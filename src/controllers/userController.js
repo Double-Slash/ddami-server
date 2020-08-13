@@ -294,7 +294,6 @@ export const postMyInfo = async (req, res) => {
   if (user === null)
     res.json({ result: 0, message: "없어진 계정이거나 없는 계정입니다." });
   else {
-    console.log(user);
     let obj = user.toObject();
     const student = await Student.findOne({ user: user._id }).select(
       "university department"
@@ -305,5 +304,24 @@ export const postMyInfo = async (req, res) => {
       obj.student = student.toObject();
       res.json({ result: 1, myInfo: obj });
     }
+  }
+};
+
+export const postMyLikes = async (req, res) => {
+  const user = await User.findById(req.decoded._id)
+    .select("like")
+    .populate({ path: "like", select: "title fileUrl author" });
+  if (user === null)
+    res.json({ result: 0, message: "없어진 계정이거나 없는 계정입니다." });
+  else {
+    let obj = user.toObject();
+    await User.populate(
+      obj.like,
+      { path: "author", select: "userId userName" },
+      (err, docs) => {
+        if (!err) res.json({ result: 1, likes: docs });
+        else console.log(err);
+      }
+    );
   }
 };

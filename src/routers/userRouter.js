@@ -10,6 +10,7 @@ import {
   postMyPieces,
   authStudent,
   postMyInfo,
+  postMyLikes,
 } from "../controllers/userController";
 
 import { multerImage } from "../multerMiddleware";
@@ -31,6 +32,7 @@ userRouter.post("/checkId", checkUserId);
 userRouter.post("/auth", checkUser, postAuth);
 userRouter.post("/mypieces", checkUser, postMyPieces);
 userRouter.post("/myInfo", checkUser, postMyInfo);
+userRouter.post("/mylikes", checkUser, postMyLikes);
 userRouter.post(
   "/auth/student",
   checkUser,

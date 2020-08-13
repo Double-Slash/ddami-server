@@ -321,6 +321,47 @@ list
     "message": "좋아요 성공"
     }
 
+## 따미 마을 내가 좋아하는 작품
+
+|             |               |
+| ----------- | ------------- |
+| method      | POST          |
+| url         | /user/mylikes |
+| Header      |               |
+| Body(Query) |               |
+| Return      |               |
+
+    {
+    "result": 1,
+    "likes": [
+        {
+            "fileUrl": [
+                "http://222.251.129.150/uploads/1597128245912.jpg"
+            ],
+            "_id": "5f323e36085ba51d50ff5b3c",
+            "title": "sss",
+            "author": {
+                "_id": "5f3139a8cb0e0f42d0a02b9a",
+                "userId": "test",
+                "userName": "최원석"
+            }
+        },
+        {
+            "fileUrl": [
+                "http://222.251.129.150/uploads/1597128174782.jpg"
+            ],
+            "_id": "5f323dee085ba51d50ff5b3b",
+            "title": "ddd",
+            "author": {
+                "_id": "5f3139a8cb0e0f42d0a02b9a",
+                "userId": "test",
+                "userName": "최원석"
+            }
+        }
+    ]
+    }
+
+
 ## 따미 마을 작가 검색
 
 1.  인기순 검색(팔로워 수)
