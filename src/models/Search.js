@@ -1,10 +1,19 @@
 import mongoose from "mongoose";
 
-const SearchSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  searches: [{ type: String }],
-  id: mongoose.Schema.Types.ObjectId,
-});
+const SearchSchema = new mongoose.Schema(
+  {
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    searches: [{ type: String }],
+    id: mongoose.Schema.Types.ObjectId,
+  },
+  {
+    toJSON: {
+      transform: function (doc, ret) {
+        delete ret._id;
+      },
+    },
+  }
+);
 
 SearchSchema.methods.saveSearch = (searchingBy) => {
   if (this.searches.length < 10) {

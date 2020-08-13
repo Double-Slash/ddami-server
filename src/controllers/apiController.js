@@ -1,13 +1,13 @@
 import Piece from "../models/Piece";
+import Search from "../models/Search";
 import { AllSearch, Searching } from "./searchController";
 import User from "../models/User";
-import Search from "../models/Search";
+import SearchModel from "../models/Search";
 import dotenv from "dotenv";
 import { Mongoose } from "mongoose";
 dotenv.config();
 
 export const getAuthorSearch = async (req, res) => {
-  console.log(req);
   let {
     query: { list, count, searchingBy },
   } = req;
@@ -414,8 +414,9 @@ export const getSearch = async (req, res) => {
 export const addSearch = async (req, res, searchingBy) => {
   if (req.decoded) {
     try {
-      const user = await Search.findOne({ user: req.decoded._id });
+      const user = await SearchModel.findOne({ user: req.decoded._id });
       if (user !== null) {
+        console.log("있는 검색어 저장");
         if (user.searches.length < 10) {
           user.searches.push(searchingBy);
           user.save();
@@ -425,11 +426,12 @@ export const addSearch = async (req, res, searchingBy) => {
           user.save();
         }
       } else {
-        const search = await Search({
+        console.log("새로 검색어 저장");
+        const search = await SearchModel({
           user: req.decoded._id,
           searches: searchingBy,
         });
-        await Search.create(search);
+        await SearchModel.create(search);
       }
     } catch (e) {
       console.log(e);
@@ -437,7 +439,17 @@ export const addSearch = async (req, res, searchingBy) => {
     }
   }
 };
-
+export const postSearchHistory = async (req, res, searchingBy) => {
+  try {
+    const history = await SearchModel.findOne({ user: req.decoded._id }).select(
+      "searches"
+    );
+    res.json({ result: 1, history: history.searches });
+  } catch (e) {
+    console.log(e);
+    res.json({ result: 0, message: "DB 오류" });
+  }
+};
 export const checkInclude = (data, req) => {
   if (!req.decoded) {
     return false;

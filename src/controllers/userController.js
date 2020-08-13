@@ -198,8 +198,14 @@ export const postUserDetail = async (req, res) => {
   if (user === null) {
     res.json({ result: 0, message: "사라진 사용자입니다." });
   } else {
-    //닉네임 팔로워수
     let obj = user.toObject();
+    if (user.state === true) {
+      const student = await Student.findOne({ user: user._id }).select(
+        "university department"
+      );
+      obj.student = student;
+    }
+    //닉네임 팔로워수
     obj.follow = user.follow.length;
     obj.myPieces.reverse();
 

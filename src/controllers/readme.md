@@ -423,6 +423,24 @@ list
     }
 
 
+## 검색어 기록
+
+|             |                     |
+| ----------- | ------------------- |
+| method      | POST or GET         |
+| url         | /api/search/history |
+| Header      | x-access token      |
+| Body(Query) |                     |
+| Return      |                     |
+
+    {
+    "result": 1,
+    "history": [
+        "김따미",
+        "김따미"
+    ]
+    }
+
 
 ## 따미 마을 작가 검색
 
