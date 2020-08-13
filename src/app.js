@@ -15,6 +15,13 @@ dotenv.config();
 const app = express();
 
 app.use(helmet());
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Methods", "POST, GET");
+  next();
+});
+
 app.use("/uploads", express.static("./uploads/images/"));
 app.set("/", path.join(__dirname, "/"));
 app.use(bodyParser.json());

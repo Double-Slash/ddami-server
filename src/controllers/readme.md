@@ -550,6 +550,70 @@ list
     "message": "성공적으로 따미 재료샾에 업로드 하였습니다."
     }
 
+## 작품샾 상세보기
+
+|             |                          |
+| ----------- | ------------------------ |
+| method      | POST or GET              |
+| url         | /shop/detail/product/:id |
+| Header      |                          |
+| Body(Query) |                          |
+| Return      |                          |
+
+    {
+    "result": 1,
+    "product": {
+        "hasField": [
+            "공예"
+        ],
+        "like": [
+            "5f3139a8cb0e0f42d0a02b9a"
+        ],
+        "_id": "5f33c101e190c12758d4c624",
+        "title": "작품이름 (작품이름은 한줄만 나오게 해주세요) ",
+        "price": 0,
+        "description": "1",
+        "author": {
+            "imageUrl": "http://222.251.129.150/uploads/default.jpg",
+            "_id": "5f32426aeaf0a645c0d38b60",
+            "userId": "ddami",
+            "userName": "김따미"
+        },
+        "locationName": "연세대학교",
+        "likeByUser": false
+    }
+    }
+
+
+## 재료샾 상세보기
+
+|             |                           |
+| ----------- | ------------------------- |
+| method      | POST or GET               |
+| url         | /shop/detail/material/:id |
+| Header      |                           |
+| Body(Query) |                           |
+| Return      |                           |
+
+    {
+    "result": 1,
+    "material": {
+        "hasField": [],
+        "like": [],
+        "_id": "5f3500bdb6789b2ae0da7817",
+        "title": "바",
+        "price": 120000,
+        "description": "this is a sample.",
+        "author": {
+            "imageUrl": "http://222.251.129.150/uploads/default.jpg",
+            "_id": "5f3139a8cb0e0f42d0a02b9a",
+            "userId": "test",
+            "userName": "최원석"
+        },
+        "locationName": "연세대학교",
+        "likeByUser": false
+    }
+    }
 
 ## 따미 작품 샾 검색
 
@@ -558,7 +622,7 @@ list
 |             |                                                                              |
 | ----------- | ---------------------------------------------------------------------------- |
 | method      | POST or GET                                                                  |
-| url         | /shop/search/piece                                                           |
+| url         | /shop/search/product                                                         |
 | Header      |                                                                              |
 | Body(Query) | ex) <span style="color:gray">{"list":0, "count": 2,"searchingBy":"" }</span> |
 | Return      |                                                                              |

@@ -7,6 +7,8 @@ import {
   searchProduct,
   uploadMaterial,
   searchMaterial,
+  getProductDetail,
+  getMaterialDetail,
 } from "../controllers/shopController";
 const shopRouter = express.Router();
 
@@ -23,7 +25,11 @@ shopRouter.post(
   multerImage.array("img", 3),
   uploadMaterial
 );
-shopRouter.post("/search/piece", searchProduct);
+shopRouter.post("/detail/product/:id", getProductDetail);
+shopRouter.get("/detail/product/:id", getProductDetail);
+shopRouter.post("/detail/material/:id", getMaterialDetail);
+shopRouter.get("/detail/material/:id", getMaterialDetail);
+shopRouter.post("/search/product", searchProduct);
 shopRouter.post("/search/material", searchMaterial);
 
 export default shopRouter;

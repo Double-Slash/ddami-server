@@ -6,7 +6,7 @@ const allSearch = async (list, count) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "fileUrl title likeCount price views likeCount state like locationName views"
+      "fileUrl title likeCount price hasField views likeCount state like locationName views"
     );
 
   return material;
@@ -20,7 +20,7 @@ const allFieldSearch = async (field, list, count) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "fileUrl title likeCount price views likeCount state like locationName views"
+      "fileUrl title likeCount price hasField views likeCount state like locationName views"
     );
 
   return material;
@@ -32,7 +32,7 @@ const allSearchByLike = async (list, count) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "fileUrl title likeCount price views likeCount state like locationName views"
+      "fileUrl title likeCount price hasField views likeCount state like locationName views"
     );
 
   return material;
@@ -45,7 +45,7 @@ const allFieldSearchByLike = async (list, count) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "fileUrl title likeCount price views likeCount state like locationName views"
+      "fileUrl title likeCount price hasField views likeCount state like locationName views"
     );
 
   return material;
@@ -109,7 +109,7 @@ const search = async (list, count, searchingBy) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "fileUrl title likeCount price views likeCount state like locationName views"
+      "fileUrl title likeCount price hasField views likeCount state like locationName views"
     );
   return material;
 };
@@ -124,7 +124,7 @@ const fieldSearch = async (field, list, count, searchingBy) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "fileUrl title likeCount price views likeCount state like locationName views"
+      "fileUrl title likeCount price hasField views likeCount state like locationName views"
     );
   return material;
 };
@@ -137,7 +137,7 @@ const searchByLike = async (list, count, searchingBy) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "fileUrl title likeCount price views likeCount state like locationName views"
+      "fileUrl title likeCount price hasField views likeCount state like locationName views"
     );
   return material;
 };
@@ -172,7 +172,7 @@ const fieldSearchByLike = async (field, list, count, searchingBy) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "fileUrl title likeCount price views likeCount state like locationName views"
+      "fileUrl title likeCount price hasField views likeCount state like locationName views"
     );
   return material;
 };

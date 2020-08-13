@@ -533,6 +533,45 @@ export const searchMaterial = async (req, res) => {
   }
 };
 
+export const getProductDetail = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  const product = await Product.findOne({ _id: id })
+    .select("title hasField price like locationName description")
+    .populate({
+      path: "author",
+      select: "imageUrl userId userName",
+    });
+  if (product == null)
+    res.json({ result: 0, message: "없거나 사라진 상품입니다." });
+  else {
+    const obj = product.toObject();
+    obj.likeByUser = checkLike(product.like, req);
+    res.json({ result: 1, product: obj });
+  }
+};
+
+export const getMaterialDetail = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  const material = await Material.findOne({ _id: id })
+    .select("title hasField price like locationName description")
+    .populate({
+      path: "author",
+      select: "imageUrl userId userName",
+    });
+
+  if (material == null)
+    res.json({ result: 0, message: "없거나 사라진 재료입니다." });
+  else {
+    const obj = material.toObject();
+    obj.likeByUser = checkLike(material.like, req);
+    res.json({ result: 1, material: obj });
+  }
+};
+
 const checkLike = (data, req) => {
   if (!req.decoded) {
     return false;

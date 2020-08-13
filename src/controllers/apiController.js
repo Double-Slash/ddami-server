@@ -7,6 +7,7 @@ import { Mongoose } from "mongoose";
 dotenv.config();
 
 export const getAuthorSearch = async (req, res) => {
+  console.log(req);
   let {
     query: { list, count, searchingBy },
   } = req;

@@ -6,7 +6,7 @@ const allSearch = async (list, count) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "pieces title likeCount price views likeCount state like locationName views"
+      "pieces title likeCount price hasField views likeCount state like locationName views"
     )
     .populate({ path: "pieces", select: "fileUrl" });
 
@@ -21,7 +21,7 @@ const allFieldSearch = async (field, list, count) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "pieces title likeCount price views likeCount state like locationName views"
+      "pieces title likeCount price hasField views likeCount state like locationName views"
     )
     .populate({ path: "pieces", select: "fileUrl" });
 
@@ -34,7 +34,7 @@ const allSearchByLike = async (list, count) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "pieces title likeCount price views likeCount state like locationName views"
+      "pieces title likeCount price hasField views likeCount state like locationName views"
     )
     .populate({ path: "pieces", select: "fileUrl" });
 
@@ -48,7 +48,7 @@ const allFieldSearchByLike = async (list, count) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "pieces title likeCount price views likeCount state like locationName views"
+      "pieces title likeCount price hasField views likeCount state like locationName views"
     )
     .populate({ path: "pieces", select: "fileUrl" });
 
@@ -113,7 +113,7 @@ const search = async (list, count, searchingBy) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "pieces title likeCount price views likeCount state like locationName views"
+      "pieces title likeCount price hasField views likeCount state like locationName views"
     )
     .populate({ path: "pieces", select: "fileUrl" });
   return product;
@@ -129,7 +129,7 @@ const fieldSearch = async (field, list, count, searchingBy) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "pieces title likeCount price views likeCount state like locationName views"
+      "pieces title likeCount price hasField views likeCount state like locationName views"
     )
     .populate({ path: "pieces", select: "fileUrl" });
   return product;
@@ -143,7 +143,7 @@ const searchByLike = async (list, count, searchingBy) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "pieces title likeCount price views likeCount state like locationName views"
+      "pieces title likeCount price hasField views likeCount state like locationName views"
     )
     .populate({ path: "pieces", select: "fileUrl" });
   return product;
@@ -179,7 +179,7 @@ const fieldSearchByLike = async (field, list, count, searchingBy) => {
     .skip(list * count)
     .limit(count)
     .select(
-      "pieces title likeCount price views likeCount state like locationName views"
+      "pieces title likeCount price hasField views likeCount state like locationName views"
     )
     .populate({ path: "pieces", select: "fileUrl" });
   return product;

@@ -291,7 +291,7 @@ export const authStudent = async (req, res) => {
 
 export const postMyInfo = async (req, res) => {
   const user = await User.findById(req.decoded._id)
-    .select("userId userName myPieces likeField follow followerCount")
+    .select("userId userName imageUrl myPieces likeField follow followerCount")
     .populate({ path: "myPieces", select: "fileUrl" });
   if (user === null)
     res.json({ result: 0, message: "없어진 계정이거나 없는 계정입니다." });
