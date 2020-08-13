@@ -582,13 +582,13 @@ list
 
 ## 댓글 정보 가져오기 ( 대댓글 가져올시 활용 )
 
-|             |             |
-| ----------- | ----------- |
-| method      | POST or GET |
-| url         | /detail/:id |
-| Header      |             |
-| Body(Query) |             |
-| Return      |             |
+|             |                     |
+| ----------- | ------------------- |
+| method      | POST or GET         |
+| url         | /comment/detail/:id |
+| Header      |                     |
+| Body(Query) |                     |
+| Return      |                     |
 
     {
     "result": 1,
