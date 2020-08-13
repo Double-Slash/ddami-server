@@ -9,7 +9,6 @@ import { addSearch } from "./apiController";
 
 export const myPieces = async (req, res) => {};
 export const uploadPiece = async (req, res) => {
-  //내껀지 검증먼저 pieces
   const {
     body: { pieces, title, price, description, hasField, locationName },
   } = req; // pieces는 id 배열
@@ -17,6 +16,8 @@ export const uploadPiece = async (req, res) => {
   console.log(user);
   if (user === null)
     res.json({ result: 0, message: "사라지거나 없어진 계정입니다." });
+  else if (user.state === false)
+    res.json({ result: 0, message: "미대생 인증을 먼저 해주세요" });
   else if (!pieces)
     res.json({ result: 0, message: "작품을 하나 이상 선택해주세요" });
   else if (!checkMyPiece(pieces, user))

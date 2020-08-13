@@ -233,7 +233,7 @@ export const postMyPieces = async (req, res) => {
 };
 
 export const authStudent = async (req, res) => {
-  const {
+  let {
     body: { university, department, number, likeField },
   } = req;
   const user = await User.findById(req.decoded._id);
@@ -256,6 +256,9 @@ export const authStudent = async (req, res) => {
 
       user.state = true;
       user.likeField = likeField;
+      // user.likeField.concat(
+      //   likeField.filter((e) => user.likeField.indexOf(e) == -1)
+      // );
       console.log(user);
       await user.save((err) => {
         if (!err) res.json({ result: 1, message: "미대생 인증 되었습니다." });
@@ -267,6 +270,27 @@ export const authStudent = async (req, res) => {
     } catch (err) {
       console.log(err);
       res.status(500).json({ result: 0, message: "DB 오류" });
+    }
+  }
+};
+
+export const postMyInfo = async (req, res) => {
+  const user = await User.findById(req.decoded._id)
+    .select("userId userName myPieces likeField follow followerCount")
+    .populate({ path: "myPieces", select: "fileUrl" });
+  if (user === null)
+    res.json({ result: 0, message: "없어진 계정이거나 없는 계정입니다." });
+  else {
+    console.log(user);
+    let obj = user.toObject();
+    const student = await Student.findOne({ user: user._id }).select(
+      "university department"
+    );
+    obj.follow = obj.follow.length;
+    if (student === null) res.json({ result: 1, mypieces: user.myPieces });
+    else {
+      obj.student = student.toObject();
+      res.json({ result: 1, myInfo: obj });
     }
   }
 };

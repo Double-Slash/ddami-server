@@ -17,7 +17,12 @@ shopRouter.post(
   multerImage.array("img", 3),
   uploadMaterial
 );
-shopRouter.post("/upload/material", checkUser, uploadMaterial);
+shopRouter.post(
+  "/upload/material",
+  checkUser,
+  multerImage.array("img", 3),
+  uploadMaterial
+);
 shopRouter.post("/search/piece", searchProduct);
 shopRouter.post("/search/material", searchMaterial);
 

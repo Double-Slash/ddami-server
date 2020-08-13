@@ -141,6 +141,42 @@
     }
     }
 
+## 내 작업실 정보
+
+|        |                |
+| ------ | -------------- |
+| method | POST           |
+| url    | /user/myInfo   |
+| Header | x-access-token |
+| Body   | (anroid) token |
+| Return |                |
+
+    {
+    "result": 1,
+    "myInfo": {
+        "likeField": [],
+        "follow": 0,
+        "followerCount": 0,
+        "myPieces": [
+            {
+                "fileUrl": [
+                    "http://222.251.129.150/uploads/1597061667017.jpg",
+                    "http://222.251.129.150/uploads/1597061667368.jpg"
+                ],
+                "_id": "5f313a23cb0e0f42d0a02b9c"
+            }
+        ],
+        "_id": "5f3139a8cb0e0f42d0a02b9a",
+        "userId": "test",
+        "userName": "최원석",
+        "student": {
+            "_id": "5f34f2f999fef948e0f8b10b",
+            "university": "연세대학교",
+            "department": "융합보안학과"
+        }
+    }
+    }
+
 ## 내 작업실 피드
 
 |        |                |
