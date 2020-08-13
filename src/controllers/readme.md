@@ -308,28 +308,28 @@ list
 
 ## 따미 마을 작품 좋아요
 
-|             |                |
-| ----------- | -------------- |
-| method      | POST or GET    |
-| url         | /user/like/:id |
-| Header      |                |
-| Body(Query) |                |
-| Return      |                |
+|             |                      |
+| ----------- | -------------------- |
+| method      | POST or GET          |
+| url         | /user/like/piece/:id |
+| Header      | x-access token       |
+| Body(Query) |                      |
+| Return      |                      |
 
     {
     "result": 1,
-    "message": "좋아요 성공"
+    "message": "좋아요 성공" or "좋아요 취소"
     }
 
 ## 따미 마을 내가 좋아하는 작품
 
-|             |               |
-| ----------- | ------------- |
-| method      | POST          |
-| url         | /user/mylikes |
-| Header      |               |
-| Body(Query) |               |
-| Return      |               |
+|             |                |
+| ----------- | -------------- |
+| method      | POST           |
+| url         | /user/mylikes  |
+| Header      | x-access token |
+| Body(Query) |                |
+| Return      |                |
 
     {
     "result": 1,
@@ -360,6 +360,45 @@ list
         }
     ]
     }
+
+## 따미 마을 내가 찜한 상품 (최신순)
+
+|             |                     |
+| ----------- | ------------------- |
+| method      | POST                |
+| url         | /user/like/products |
+| Header      | x-access-token      |
+| Body(Query) |                     |
+| Return      |                     |
+
+    {
+    "likes": [
+        {
+            "fileUrl": [
+                "http://222.251.129.150/uploads/material.jpg"
+            ],
+            "_id": "5f3500c3b6789b2ae0da781f",
+            "title": "바",
+            "locationName": "연세대학교",
+            "created": "2020-08-13T08:58:43.556Z"
+        },
+        {
+            "pieces": [
+                {
+                    "fileUrl": [
+                        "http://222.251.129.150/uploads/1597129422996.jpg"
+                    ],
+                    "_id": "5f3242cfeaf0a645c0d38b63"
+                }
+            ],
+            "_id": "5f33c101e190c12758d4c624",
+            "title": "작품이름 (작품이름은 한줄만 나오게 해주세요) ",
+            "locationName": "연세대학교",
+            "created": "2020-08-12T10:14:25.415Z"
+        }
+    ]
+    }
+
 
 
 ## 따미 마을 작가 검색
@@ -460,6 +499,22 @@ list
     }
 
 - 조회수 증가 => 해당 게시물을 10분 안에 조회했었으면 증가 x
+
+
+## 따미 샾 작품,재료 좋아요
+
+|             |                        |
+| ----------- | ---------------------- |
+| method      | POST or GET            |
+| url         | /user/like/product/:id |
+| Header      | x-access-token         |
+| Body(Query) |                        |
+| Return      |                        |
+
+    {
+    "result": 1,
+    "message": "좋아요 성공" or "좋아요 취소"
+    }
 
 ## 따미 작품 샵 글 작성
 

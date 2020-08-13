@@ -1,5 +1,7 @@
 import User from "../models/User";
 import Piece from "../models/Piece";
+import Product from "../models/Product";
+import Material from "../models/Material";
 import Student from "../models/Student";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -323,5 +325,123 @@ export const postMyLikes = async (req, res) => {
         else console.log(err);
       }
     );
+  }
+};
+
+export const postLikeProducts = async (req, res) => {
+  const user = await User.findById(req.decoded._id)
+    .select("likeProduct likeMaterial")
+    .populate({
+      path: "likeProduct",
+      select: "title pieces locationName created",
+    });
+  if (user === null)
+    res.json({ result: 0, message: "없어진 계정이거나 없는 계정입니다." });
+  else {
+    const object = await Piece.populate(user.likeProduct, {
+      path: "pieces",
+      select: "fileUrl",
+    });
+    await Material.populate(
+      user,
+      {
+        path: "likeMaterial",
+        select: "title fileUrl locationName created",
+      },
+      (err, docs) => {
+        if (err) console.log(err);
+        else {
+          console.log(docs);
+          let obj = docs.toObject();
+          obj.likeProduct.pieces = object;
+          let result = {};
+          result.likes = obj.likeProduct.concat(obj.likeMaterial);
+          result.likes.sort((b, a) => a.created - b.created);
+          res.json(200, result);
+        }
+      }
+    );
+
+    // let obj = user.toObject();
+    // await User.populate(
+    //   obj.like,
+    //   { path: "author", select: "userId userName" },
+    //   (err, docs) => {
+    //     if (!err) res.json({ result: 1, likes: docs });
+    //     else console.log(err);
+    //   }
+    // );
+  }
+};
+
+export const addLikeProduct = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  const user = await User.findById(req.decoded._id);
+  const product = await Product.findOne({ _id: id });
+  if (product == null) {
+    const material = await Material.findOne({ _id: id });
+    if (material == null) {
+      res
+        .status(404)
+        .json({ result: 0, message: "사라지거나 없는 상품입니다." });
+    } else {
+      try {
+        const pos = user.likeMaterial.indexOf(id);
+
+        if (pos != -1) {
+          material.like.splice(material.like.indexOf(req.decoded._id), 1);
+          material.likeCount--;
+          material.save((err) => {
+            if (err) {
+            }
+            user.likeMaterial.splice(pos, 1);
+            user.save();
+          });
+          res.json({ result: 1, message: "좋아요 취소" });
+        } else {
+          material.like.push(req.decoded._id);
+          material.likeCount++;
+          material.save((err) => {
+            if (err) {
+            }
+            user.likeMaterial.push(id);
+            user.save();
+          });
+          res.json({ result: 1, message: "좋아요 성공" });
+        }
+      } catch (err) {
+        res.status(500).json({ result: 0, message: "DB 오류" });
+      }
+    }
+  } else {
+    try {
+      const pos = user.likeProduct.indexOf(id);
+
+      if (pos != -1) {
+        product.like.splice(product.like.indexOf(req.decoded._id), 1);
+        product.likeCount--;
+        product.save((err) => {
+          if (err) {
+          }
+          user.likeProduct.splice(pos, 1);
+          user.save();
+        });
+        res.json({ result: 1, message: "좋아요 취소" });
+      } else {
+        product.like.push(req.decoded._id);
+        product.likeCount++;
+        product.save((err) => {
+          if (err) {
+          }
+          user.likeProduct.push(id);
+          user.save();
+        });
+        res.json({ result: 1, message: "좋아요 성공" });
+      }
+    } catch (err) {
+      res.status(500).json({ result: 0, message: "DB 오류" });
+    }
   }
 };
