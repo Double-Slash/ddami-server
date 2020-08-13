@@ -202,19 +202,32 @@ export const addLike = async (req, res) => {
   const piece = await Piece.findOne({ _id: id });
   if (piece == null)
     res.status(404).json({ result: 0, message: "사라지거나 없는 작품입니다." });
-  else if (piece) {
-  } else {
-    const user = await User.findById(req.decoded._id);
+  else {
     try {
-      piece.like.push(req.decoded._id);
-      piece.likeCount++;
-      piece.save((err) => {
-        if (err) {
-        }
-        user.like.push(id);
-        user.save();
-      });
-      res.json({ result: 1, message: "좋아요 성공" });
+      const user = await User.findById(req.decoded._id);
+      const pos = user.like.indexOf(id);
+
+      if (pos != -1) {
+        piece.like.splice(piece.like.indexOf(req.decoded._id), 1);
+        piece.likeCount--;
+        piece.save((err) => {
+          if (err) {
+          }
+          user.like.splice(pos, 1);
+          user.save();
+        });
+        res.json({ result: 1, message: "좋아요 취소" });
+      } else {
+        piece.like.push(req.decoded._id);
+        piece.likeCount++;
+        piece.save((err) => {
+          if (err) {
+          }
+          user.like.push(id);
+          user.save();
+        });
+        res.json({ result: 1, message: "좋아요 성공" });
+      }
     } catch (err) {
       res.status(500).json({ result: 0, message: "DB 오류" });
     }

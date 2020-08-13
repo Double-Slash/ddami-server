@@ -66,9 +66,14 @@ export const uploadMaterial = async (req, res) => {
   else {
     try {
       const fileUrl = [];
+
       if (req.files) {
-        for (var e of req.files)
-          fileUrl.push(`${process.env.BASE_URL}/uploads/${e.filename}`);
+        if (req.files.length == 0)
+          fileUrl.push(`${process.env.BASE_URL}/uploads/material.jpg`);
+        else {
+          for (var e of req.files)
+            fileUrl.push(`${process.env.BASE_URL}/uploads/${e.filename}`);
+        }
       }
       const material = await Material({
         fileUrl,
@@ -147,6 +152,10 @@ export const searchProduct = async (req, res) => {
         }
       }
     } else if (sortingBy === "T") {
+      if (!location) {
+        res.json({ result: 0, message: "위치정보를 입력해주세요." });
+        return;
+      }
       if (!field) {
         // 전체 분야
         try {
@@ -247,6 +256,10 @@ export const searchProduct = async (req, res) => {
         }
       }
     } else if (sortingBy === "T") {
+      if (!location) {
+        res.json({ result: 0, message: "위치정보를 입력해주세요." });
+        return;
+      }
       if (!field) {
         // 전체 분야
         try {
@@ -357,6 +370,10 @@ export const searchMaterial = async (req, res) => {
         }
       }
     } else if (sortingBy === "T") {
+      if (!location) {
+        res.json({ result: 0, message: "위치정보를 입력해주세요." });
+        return;
+      }
       if (!field) {
         // 전체 분야
         try {
@@ -457,6 +474,10 @@ export const searchMaterial = async (req, res) => {
         }
       }
     } else if (sortingBy === "T") {
+      if (!location) {
+        res.json({ result: 0, message: "위치정보를 입력해주세요." });
+        return;
+      }
       if (!field) {
         // 전체 분야
         try {

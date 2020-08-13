@@ -306,6 +306,21 @@ list
 - list:0 count:10 -> 0~9까지 출력
 - list:1 count:10 -> 10~19까지 출력
 
+## 따미 마을 작품 좋아요
+
+|             |                |
+| ----------- | -------------- |
+| method      | POST or GET    |
+| url         | /user/like/:id |
+| Header      |                |
+| Body(Query) |                |
+| Return      |                |
+
+    {
+    "result": 1,
+    "message": "좋아요 성공"
+    }
+
 ## 따미 마을 작가 검색
 
 1.  인기순 검색(팔로워 수)
