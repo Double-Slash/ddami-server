@@ -1,7 +1,7 @@
 import express from "express";
 
 import { multerImage } from "../multerMiddleware";
-import { checkUser } from "../jwtMiddleware";
+import { checkUser, checkViewUser } from "../jwtMiddleware";
 import {
   uploadPiece,
   searchProduct,
@@ -27,8 +27,8 @@ shopRouter.post(
 );
 shopRouter.post("/detail/product/:id", getProductDetail);
 shopRouter.get("/detail/product/:id", getProductDetail);
-shopRouter.post("/detail/material/:id", getMaterialDetail);
-shopRouter.get("/detail/material/:id", getMaterialDetail);
+shopRouter.post("/detail/material/:id", checkViewUser, getMaterialDetail);
+shopRouter.get("/detail/material/:id", checkViewUser, getMaterialDetail);
 shopRouter.post("/search/product", searchProduct);
 shopRouter.post("/search/material", searchMaterial);
 

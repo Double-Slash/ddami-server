@@ -229,6 +229,20 @@
     "message": "미대생 인증 되었습니다."
     }
 
+## 다른 사용자 팔로우
+
+|             |                  |
+| ----------- | ---------------- |
+| method      | POST or GET      |
+| url         | /user/follow/:id |
+| Header      | x-access token   |
+| Body(Query) |                  |
+| Return      |                  |
+
+    {
+    "result": 1,
+    "message": "팔로우 성공"
+    }
 
 ## 따미 마을 작품 검색
 

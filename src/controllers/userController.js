@@ -189,7 +189,7 @@ export const postUserDetail = async (req, res) => {
   } = req;
   const user = await User.findById(id)
     .select(
-      "userName userId follow follower likeField state imageUrl stateMessage"
+      "userName userId follow followerCount likeField state imageUrl stateMessage"
     )
     .populate({
       path: "myPieces",
@@ -201,7 +201,6 @@ export const postUserDetail = async (req, res) => {
     //닉네임 팔로워수
     let obj = user.toObject();
     obj.follow = user.follow.length;
-    obj.follower = user.follower.length;
     obj.myPieces.reverse();
 
     console.log(obj);
@@ -210,6 +209,7 @@ export const postUserDetail = async (req, res) => {
 };
 
 export const addLike = async (req, res) => {
+  console.log(req);
   const {
     params: { id },
   } = req;
@@ -443,6 +443,48 @@ export const addLikeProduct = async (req, res) => {
           user.save();
         });
         res.json({ result: 1, message: "좋아요 성공" });
+      }
+    } catch (err) {
+      res.status(500).json({ result: 0, message: "DB 오류" });
+    }
+  }
+};
+
+export const addFollow = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  const follower = await User.findOne({ _id: id });
+  if (follower == null)
+    res
+      .status(404)
+      .json({ result: 0, message: "사라지거나 없는 사용자입니다." });
+  else {
+    try {
+      const user = await User.findById(req.decoded._id);
+      const pos = user.follow.indexOf(id);
+
+      if (pos != -1) {
+        follower.follower.splice(follower.follow.indexOf(req.decoded._id), 1);
+        follower.followerCount--;
+        follower.save((err) => {
+          if (err) {
+            console.log(err);
+          }
+          user.follow.splice(pos, 1);
+          user.save();
+        });
+        res.json({ result: 1, message: "팔로우 취소" });
+      } else {
+        follower.follower.push(req.decoded._id);
+        follower.followerCount++;
+        follower.save((err) => {
+          if (err) {
+          }
+          user.follow.push(id);
+          user.save();
+        });
+        res.json({ result: 1, message: "팔로우 성공" });
       }
     } catch (err) {
       res.status(500).json({ result: 0, message: "DB 오류" });

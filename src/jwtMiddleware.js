@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import Piece from "./models/Piece";
+import Product from "./models/Product";
+import Material from "./models/Material";
 dotenv.config();
 
 const loginUser = new Object();
@@ -51,6 +53,18 @@ export const checkViewUser = async (req, res, next) => {
     if (piece !== null) {
       piece.views++;
       piece.save();
+    } else {
+      const material = await Material.findById(req.params.id);
+      if (material !== null) {
+        material.views++;
+        material.save();
+      } else {
+        const product = await Product.findById(req.params.id);
+        if (product !== null) {
+          product.views++;
+          product.save();
+        }
+      }
     }
     //10분이 지나면 배열에서 삭제
     setTimeout(() => {

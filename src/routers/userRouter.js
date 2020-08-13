@@ -13,6 +13,7 @@ import {
   postMyLikes,
   postLikeProducts,
   addLikeProduct,
+  addFollow,
 } from "../controllers/userController";
 
 import { multerImage } from "../multerMiddleware";
@@ -30,6 +31,9 @@ userRouter.post(
   postUpload
 );
 userRouter.post("/like/piece/:id", checkUser, addLike);
+userRouter.get("/like/piece/:id", checkUser, addLike);
+userRouter.get("/follow/:id", checkUser, addFollow);
+userRouter.post("/follow/:id", checkUser, addFollow);
 userRouter.post("/like/product/:id", checkUser, addLikeProduct);
 userRouter.post("/checkId", checkUserId);
 userRouter.post("/auth", checkUser, postAuth);
