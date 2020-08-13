@@ -23,11 +23,23 @@ export const checkUserId = async (req, res) => {
   }
 };
 export const postAuth = async (req, res) => {
-  const user = await User.findById(req.decoded._id).select("imageUrl userName");
+  const user = await User.findById(req.decoded._id).select(
+    "imageUrl userName state"
+  );
   if (user === null)
     res.json({ result: 0, message: "없어진 계정이거나 없는 계정입니다." });
   else {
-    res.json({ result: 1, myInfo: user });
+    if (user.state === true) {
+      const student = await Student.findOne({ user: user._id }).select(
+        "university department"
+      );
+      let obj = user.toObject();
+      obj.student = student;
+
+      res.json({ result: 1, myInfo: obj });
+    } else {
+      res.json({ result: 1, myInfo: user });
+    }
   }
 };
 
@@ -291,16 +303,18 @@ export const authStudent = async (req, res) => {
 
 export const postMyInfo = async (req, res) => {
   const user = await User.findById(req.decoded._id)
-    .select("userId userName imageUrl myPieces likeField follow followerCount")
+    .select(
+      "userId userName imageUrl myPieces likeField follow followerCount state"
+    )
     .populate({ path: "myPieces", select: "fileUrl" });
   if (user === null)
     res.json({ result: 0, message: "없어진 계정이거나 없는 계정입니다." });
   else {
     let obj = user.toObject();
+    obj.follow = obj.follow.length;
     const student = await Student.findOne({ user: user._id }).select(
       "university department"
     );
-    obj.follow = obj.follow.length;
     if (student === null) res.json({ result: 1, mypieces: user.myPieces });
     else {
       obj.student = student.toObject();

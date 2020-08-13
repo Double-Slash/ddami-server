@@ -135,9 +135,15 @@
     {
     "result": 1,
     "myInfo": {
-        "imageUrl": "",
-        "_id": "5f32426aeaf0a645c0d38b60",
-        "userName": "김따미"
+        "state": true,
+        "imageUrl": "http://222.251.129.150/uploads/default.jpg",
+        "_id": "5f3139a8cb0e0f42d0a02b9a",
+        "userName": "최원석",
+        "student": {
+            "_id": "5f34f2f999fef948e0f8b10b",
+            "university": "연세대학교",
+            "department": "융합보안학과"
+        }
     }
     }
 
