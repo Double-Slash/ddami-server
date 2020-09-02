@@ -1,5 +1,9 @@
 import Piece from "../models/Piece";
-import Search from "../models/Search";
+import Material from "../models/Piece";
+import Product from "../models/Piece";
+import Student from "../models/Piece";
+import Comment from "../models/Piece";
+
 import { AllSearch, Searching } from "./searchController";
 import User from "../models/User";
 import SearchModel from "../models/Search";
@@ -464,4 +468,20 @@ export const docToJSON = (req, documents) => {
     e.likeByMe = checkInclude(e.like, req);
   });
   return obj;
+};
+
+export const dbCollectionDrop = async (req, res) => {
+  try {
+    await SearchModel.collection.drop();
+    await Material.collection.drop();
+    await User.collection.drop();
+    await Product.collection.drop();
+    await Comment.collection.drop();
+    await Student.collection.drop();
+    await Piece.collection.drop();
+    res.json({ message: "DB 초기화" });
+  } catch (err) {
+    console.log(err);
+    res.json({ message: "DB ERROR" });
+  }
 };
